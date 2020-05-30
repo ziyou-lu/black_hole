@@ -41,20 +41,20 @@ trait i_core {
     pub fn trace_log(log: &str, log_type: i32);
 
     // 导出程序信息文件
-    pub dump_file(type: &str, file: &str);
+    pub fn dump_file(type: &str, file: &str);
 
     // 查找功能接口
-    pub find_interface(name: &str);
+    pub fn find_interface(name: &str);
     // 获取功能接口
-    pub get_interface(name: &str) -> *bi;
+    pub fn get_interface(name: &str) -> *i_base_interface;
     // 获取统一名字空间中的功能接口
-    pub get_interface_same_space(p_bi: *bi, name: &str);
+    pub fn get_interface_same_space(p_bi: *i_base_interface, name: &str);
 
     // 释放功能接口
-    pub release_interface(p_bi: *bi);
+    pub fn release_interface(p_bi: *i_base_interface);
 
     // 查找实体类信息
-    pub get_entity_info(name: &str) -> *i_entity_info;
+    pub fn get_entity_info(name: &str) -> *i_entity_info;
 }
 
 #[derive(Debug)]
