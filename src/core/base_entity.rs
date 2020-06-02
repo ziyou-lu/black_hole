@@ -1,6 +1,6 @@
 /*************************************************
 //  Copyright (C), 2020-2020, luangada.
-//  File name:       i_base_entity.rs
+//  File name:       i_base_entity
 //  Author:        	 luwangda
 //  Version:         1.0
 //  Date:            2020/05/16
@@ -8,10 +8,16 @@
 //  Others:
 //  History:
 *************************************************/
-use i_entity_info;
+use entity_info;
+use core;
+use entity_script;
+use share::any_list;
 
-trait i_base_entity {
-    core_: *i_core;
-    entity_info_: *i_entity_info;
-    
+pub(crate) trait IBaseEntity {
+    fn init();
+}
+
+struct BaseEntity {
+    core_: *core,
+    entity_info_: *entity_info,
 }

@@ -1,6 +1,6 @@
 /*************************************************
 //  Copyright (C), 2020-2020, luwangda.
-//  File name:       obj_id.rs
+//  File name:       ObjId.rs
 //  Author:        	 sll
 //  Version:         1.0
 //  Date:            2017/08/07
@@ -13,35 +13,38 @@ use engine::i_object;
 use std::ops::{Deref, DerefMut};
 
 #[derive(Debug)]
-struct obj_id {
-    ident_: u32;
-    serial_: u32;
+struct ObjId {
+    ident_: u32,
+    serial_: u32,
 }
 
-impl obj_id {
+impl ObjId {
     fn is_null(&self) -> bool{
         self.ident_ == 0 && self.serial_ == 0
     }
 
-    fn equal_to(&self, other: &obj_id) -> bool{
+    fn equal_to(&self, other: &ObjId) -> bool{
         self.ident_ == other.ident_ && self.serial_ == other.serial_
     }
 }
 
 #[derive(Debug)]
-struct obj_id_dbg {
-    obj_: obj_id;
-    obj_ptr_: *i_object;
+struct ObjIdDbg {
+    obj_: ObjId,
+    obj_ptr_: *IObject,
+}
 
-    fn new(id: &obj_id, obj_ptr: *i_object) -> obj_id_dbg {
-        self.obj_ = id;
-        self.obj_ptr_ = obj_ptr;
+impl New for ObjIdDbg {
+    fn new(id: &ObjId, obj_ptr: *IObject) -> obj_id_dbg {
+        obj_ = id;
+        obj_ptr_ = obj_ptr;
+        Self
     }
 }
 
-impl Deref for obj_id_dbg {
-    type Target = obj_id;
-    fn deref<'a>('a &self) -> 'a obj_id {
+impl Deref for ObjIdDbg {
+    type Target = ObjId;
+    fn deref(&self) -> &Self::Target {
          &self.obj_
     }
 }

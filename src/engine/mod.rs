@@ -1,2 +1,2 @@
-pub mod i_object;
-pub mod i_record;
+pub mod object;
+pub mod record;

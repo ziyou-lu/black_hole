@@ -1,9 +1,9 @@
 pub mod core;
-pub mod i_base_entity;
-pub mod i_base_logic_info;
-pub mod i_base_logic;
-pub mod i_base_interface;
-pub mod i_core;
-pub mod i_entity_creator;
-pub mod i_entity_info;
-pub mod i_entity_script;
+pub mod base_entity;
+pub mod base_logic_info;
+pub mod base_logic;
+pub mod base_logic_creator;
+pub mod base_interface;
+pub mod entity_creator;
+pub mod entity_info;
+pub mod entity_script;
