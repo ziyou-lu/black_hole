@@ -8,12 +8,11 @@
 //  Others:
 //  History:
 *************************************************/
-
-use engine::i_object;
 use std::ops::{Deref, DerefMut};
+use crate::core::object::IObject;
 
 #[derive(Debug)]
-struct ObjId {
+pub(crate) struct ObjId {
     ident_: u32,
     serial_: u32,
 }
@@ -31,14 +30,12 @@ impl ObjId {
 #[derive(Debug)]
 struct ObjIdDbg {
     obj_: ObjId,
-    obj_ptr_: *IObject,
+    obj_ptr_: * dyn IObject,
 }
 
-impl New for ObjIdDbg {
-    fn new(id: &ObjId, obj_ptr: *IObject) -> obj_id_dbg {
-        obj_ = id;
-        obj_ptr_ = obj_ptr;
-        Self
+impl ObjIdDbg {
+    fn new(id: ObjId, obj_ptr: * dyn IObject) -> ObjIdDbg {
+        ObjIdDbg{obj_: id, obj_ptr_: obj_ptr}
     }
 }
 

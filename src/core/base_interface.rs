@@ -8,79 +8,85 @@
 //  Others:
 //  History:
 *************************************************/
-use core;
-use base_logic_creator;
+use super::core::ICore;
+use super::base_interface_creator::IBaseInterfaceCreator;
 
-trait IBaseInterface {
+pub(crate) trait IBaseInterface {
 
     // 初始化
-    fn init() -> bool;
+    fn init(&self) -> bool;
     // 关闭
-    fn shut() -> bool;
+    fn shut(&self) -> bool;
 
     //是否需要每帧运行
-    fn need_exec_perframe() -> bool {
+    fn need_exec_per_frame(&self) -> bool {
         return false;
     }
 
     // 每帧开始时调用
-    fn exec_frame_begin();
+    fn exec_frame_begin(&self);
     // 每帧结束时调用
-    fn exec_frame_end();
+    fn exec_frame_end(&self);
 
     // 释放
-    fn release();
+    fn release(&self);
 
     // 获得内存占用
-    fn get_memory_usage() -> u32 {
+    fn get_memory_usage(&self) -> u32 {
         return 0;
     }
 
     // 获取核心接口
-    fn get_core() -> *i_core {
-        return core_;
-    }
+    fn get_core(&self) -> *dyn ICore;
 
     // 获取创建器
-    fn get_interface_creator() -> *i_base_interface_creator;
+    fn get_interface_creator(&self) -> *I;
 
-    fn set_core(value: *i_core) {
-        core_ = value;
-    }
+    fn set_core(&self, value: *dyn ICore);
 
-    fn set_interface_creator(value: *i_base_interface_creator) {
-        creator_ = value;
-    }
+    fn set_interface_creator(&self, value: *dyn IBaseInterfaceCreator);
 }
 
 struct IBase {
-    core_: *i_core,
-    creator_: *i_base_interface_creator,
+    core_: * dyn ICore,
+    creator_: * dyn IBaseInterfaceCreator,
 }
 
 impl IBaseInterface for IBase {
-    fn init() -> bool {
+    fn init(&self) -> bool {
         unimplemented!()
     }
 
-    fn shut() -> bool {
+    fn shut(&self) -> bool {
         unimplemented!()
     }
 
-    fn exec_frame_begin() {
+    fn exec_frame_begin(&self) {
         unimplemented!()
     }
 
-    fn exec_frame_end() {
+    fn exec_frame_end(&self) {
         unimplemented!()
     }
 
-    fn release() {
+    fn release(&self) {
         unimplemented!()
     }
 
-    fn get_interface_creator() -> *const _ {
-        unimplemented!()
+    fn get_core(&self) -> *const dyn ICore {
+        self.core_
+    }
+
+    fn get_interface_creator(&self) -> *const dyn IBaseInterfaceCreator {
+        self.creator_
+    }
+
+    fn set_core(&mut self, value: *const dyn ICore) {
+        self.core_ = value;
+    }
+
+    fn set_interface_creator(&mut self, value: *const dyn IBaseInterfaceCreator) {
+        self.creator_ = value;
     }
 }
 

@@ -14,11 +14,11 @@ use crate::core::base_logic_info::IBaseLogicInfo;
 
 pub(crate) trait IBaseLogic {
     // 初始化
-    fn init(args: &dyn IArrayList) -> bool {
+    fn init(&self, args: &dyn IArrayList) -> bool {
         true
     }
     // 关闭
-    fn shut() -> bool {
+    fn shut(&self) -> bool {
         true
     }
 
@@ -26,19 +26,19 @@ pub(crate) trait IBaseLogic {
     fn release(&self);
 
     // 获得板顶的对象
-    fn get_entity(&self) -> * dyn IBaseEntity;
+    fn get_entity(&self) -> Box<dyn IBaseEntity>;
 
     // 获得逻辑类信息
-    fn get_logic_info() -> * dyn IBaseLogicInfo;
+    fn get_logic_info(&self) -> Box<dyn IBaseLogicInfo>;
 
-    fn set_entity(&self, value: * dyn IBaseEntity);
+    fn set_entity(&self, value: Box<dyn IBaseEntity>);
 
-    fn set_logic_info(&self, value: * dyn IBaseLogicInfo);
+    fn set_logic_info(&self, value: Box<dyn IBaseLogicInfo>);
 }
 
 struct BaseLogic {
-    entity_: * dyn IBaseEntity,
-    logic_info_: * dyn IBaseLogicInfo,
+    entity_: impl IBaseEntity,
+    logic_info_: Box<dyn IBaseLogicInfo>,
 }
 
 impl IBaseLogic for BaseLogic {
@@ -46,19 +46,19 @@ impl IBaseLogic for BaseLogic {
         self.logic_info_.get_creator().destroy(self);
     }
 
-    fn get_entity(&self) -> *const dyn IBaseEntity {
-        unimplemented!()
+    fn get_entity(&self) -> Box<dyn IBaseEntity> {
+        *self.entity_
     }
 
-    fn get_logic_info() -> *const dyn IBaseLogicInfo {
-        unimplemented!()
+    fn get_logic_info(&self) -> Box<dyn IBaseLogicInfo> {
+        &self.logic_info_
     }
 
-    fn set_entity(&self, value: *const dyn IBaseEntity) {
-        unimplemented!()
+    fn set_entity(&mut self, value: Box<dyn IBaseEntity>) {
+        self.entity_ = value;
     }
 
-    fn set_logic_info(&self, value: *const dyn IBaseLogicInfo) {
-        unimplemented!()
+    fn set_logic_info(&mut self, value: Box<dyn IBaseLogicInfo>) {
+        self.logic_info_ = value;
     }
 }

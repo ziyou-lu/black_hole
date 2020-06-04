@@ -10,111 +10,112 @@
 *************************************************/
 use super::entity_info::IEntityInfo;
 use super::base_entity::IBaseEntity;
+use std::os::raw::c_char;
 
 #[derive(Debug)]
-struct IEntityProp<'a> {
-    name_: &'a str,
+struct EntityProp {
+    name_: String,
     type_: i32,
     get_func_: fn(),
     set_func_: fn(),
-    next_: *i_entity_prop,
+    next_: *EntityProp,
 }
 
 #[derive(Debug)]
-struct IEntityFunc<'a> {
-    name_: &'a str,
+struct EntityFunc {
+    name_: String,
     mid_func_: fn(),
     return_table_: bool,
-    next_: i_entity_func,
+    next_: * EntityFunc,
 }
 
 pub(crate) trait IEntityCreator {
 
     // 是否为纯虚类（只能用来继承）
-    fn is_abstract() -> bool {
+    fn is_abstract(&self) -> bool {
         return false;
     }
 
     // 获取父类名称
-    fn get_parent() -> &str;
+    fn get_parent(&self) -> String;
 
     // 返回名字空间
-    fn get_space() -> &str;
+    fn get_space(&self) -> String;
 
     // 返回名称
-    fn get_name() -> &str;
+    fn get_name(&self) -> String;
 
     //创建
-    fn create() -> * dyn IBaseEntity;
+    fn create(&self) -> *const dyn IBaseEntity;
 
     // 删除
-    fn destroy(p: * dyn IBaseEntity);
+    fn destroy(&self, p: *const dyn IBaseEntity);
 
     // 获取下一个
-    fn get_next() -> * dyn IEntityCreator;
+    fn get_next(&self) -> *const dyn IEntityCreator;
 
     // 获得属性链表
-    fn get_property_link() -> * IEntityProp;
+    fn get_property_link(&self) -> *const EntityProp;
 
     // 设置属性链表
-    fn set_property_link(value: *IEntityProp);
+    fn set_property_link(&self, value: *const EntityProp);
 
     // 获得方法链表
-    fn get_method_link() -> * IEntityFunc;
+    fn get_method_link(&self) -> *const EntityFunc;
 
     // 设置方法链表
-    fn set_method_link(value: *IEntityFunc);
+    fn set_method_link(&self, value: *const EntityFunc);
 }
 
-struct EntityCreator<'a> {
-    next_: * EntityCreator<'a>,
-    property_: *IEntityProp<'a>,
-    method_: *IEntityFunc<'a>,
+struct EntityCreator {
+    next_: * EntityCreator,
+    property_: * EntityProp,
+    method_: * EntityFunc,
 }
 
 impl IEntityCreator for EntityCreator {
-    fn is_abstract() -> bool {
+    fn is_abstract(&self) -> bool {
         unimplemented!()
     }
 
-    fn get_parent() -> &str {
+    fn get_parent(&self) -> String {
         unimplemented!()
     }
 
-    fn get_space() -> &str {
+    fn get_space(&self) -> String {
         unimplemented!()
     }
 
-    fn get_name() -> &str {
+    fn get_name(&self) -> String {
         unimplemented!()
     }
 
-    fn create() {
+    fn create(&self) {
         unimplemented!()
     }
 
-    fn destroy(p: *const dyn IBaseEntity) {
+    fn destroy(&self, p: *const dyn IBaseEntity) {
         unimplemented!()
     }
 
-    fn get_next() -> *const dyn IEntityCreator {
-        unimplemented!()
+    fn get_next(&self) -> *const dyn IEntityCreator {
+        self.next_
     }
 
-    fn get_property_link<'a>() -> *const IEntityProp<'a> {
-        unimplemented!()
+    fn get_property_link(&self) -> *const EntityProp {
+        self.property_
     }
 
-    fn set_property_link(value: *const IEntityProp) {
-        unimplemented!()
+    fn set_property_link(&mut self, value: *const EntityProp) {
+        self.property_ = value;
     }
 
-    fn get_method_link<'a>() -> *const IEntityFunc<'a> {
-        unimplemented!()
+    fn get_method_link(&self) -> *const EntityFunc {
+        self.method_
     }
 
-    fn set_method_link(value: *const IEntityFunc) {
-        unimplemented!()
+    fn set_method_link(&mut self, value: *const EntityFunc) {
+        self.method_ = value;
     }
 }
 

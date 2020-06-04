@@ -9,23 +9,24 @@
 //  History:
 *************************************************/
 use base_interface;
+use crate::core::base_interface::IBaseInterface;
 
-trait IBaseInterfaceCreator {
+pub(crate) trait IBaseInterfaceCreator {
 
     // 返回名字空间
-    fn get_space() -> String;
+    fn get_space(&self) -> String;
 
     // 返回名称
-    fn get_name() -> String;
+    fn get_name(&self) -> String;
 
     // 创建
-    fn create() -> *IBaseInterface;
+    fn create(&self) -> * dyn IBaseInterface;
 
     // 删除
-    fn destroy(p: *IBaseInterface);
+    fn destroy(&self, p: * dyn IBaseInterface);
 
     // 获得下一个
-    fn get_next() -> *IBaseInterface;
+    fn get_next(&self) -> * dyn IBaseInterface;
 
 
 }
@@ -35,23 +36,23 @@ struct BaseInterfaceCreator {
 }
 
 impl IBaseInterfaceCreator for BaseInterfaceCreator {
-    fn get_space() -> String {
+    fn get_space(&self) -> String {
         unimplemented!()
     }
 
-    fn get_name() -> String {
+    fn get_name(&self) -> String {
         unimplemented!()
     }
 
-    fn create() -> *IBaseInterface {
+    fn create(&self) -> *const dyn IBaseInterface {
         unimplemented!()
     }
 
-    fn destroy(p: *IBaseInterface) {
+    fn destroy(&self, p: *const dyn IBaseInterface) {
         unimplemented!()
     }
 
-    fn get_next() -> *IBaseInterface {
+    fn get_next(&self) -> *const dyn IBaseInterface {
         unimplemented!()
     }
 }
