@@ -11,11 +11,11 @@
 use super::base_logic::IBaseLogic;
 
 #[derive(Debug)]
-struct BaseLogicCallBack {
+pub struct BaseLogicCallBack {
     name_: String,
     mid_func_: fn(),
     return_table_: bool,
-    next_: *i_base_logic_call_back,
+    pub next_: Some(BaseLogicCallBack),
 }
 
 pub(crate) trait IBaseLogicCreator {
@@ -24,23 +24,23 @@ pub(crate) trait IBaseLogicCreator {
     // 返回名称
     fn get_name(&self) -> String;
     // 创建
-    fn create(&self) -> * dyn IBaseLogic;
+    fn create<T: IBaseLogic>(&self) -> Option<T>;
     // 删除
-    fn destroy(&self, p: * dyn IBaseLogic);
+    fn destroy<T: IBaseLogic>(&self, logic: &T);
     // 获得下一个
-    fn get_next(&self) -> * dyn IBaseLogicCreator;
+    fn get_next<T: IBaseLogicCreator>(&self) -> Option<T>;
     // 获取方法链表
-    fn get_callback_link(&self) -> * BaseLogicCallBack;
+    fn get_callback_link(&self) -> Option<BaseLogicCallBack>;
 
     // 设置方法链表
-    fn set_callback_link(&self, value: * BaseLogicCallBack);
+    fn set_callback_link(&mut self, value: BaseLogicCallBack);
 
 
 }
 
 struct BaseLogicCreator {
-    next_: * dyn IBaseLogicCreator,
-    call_back_: *BaseLogicCallBack,
+    next_: Some(dyn IBaseLogicCreator),
+    call_back_: Some(BaseLogicCallBack),
 }
 
 impl IBaseLogicCreator for BaseLogicCreator {
@@ -52,23 +52,23 @@ impl IBaseLogicCreator for BaseLogicCreator {
         unimplemented!()
     }
 
-    fn create(&self) -> *const dyn IBaseLogic {
+    fn create<T: IBaseLogic>(&self) -> Option<T> {
         unimplemented!()
     }
 
-    fn destroy(&mut self, value: *const dyn IBaseLogicCreator) {
-        self.next_ = value;
+    fn destroy<T: IBaseLogic>(&self, logic: &T) {
+        unimplemented!()
     }
 
-    fn get_next(&self) -> *const dyn IBaseLogicCreator {
+    fn get_next<T: IBaseLogicCreator>(&self) -> Option<T> {
         self.next_
     }
 
-    fn get_callback_link(&self) -> *const BaseLogicCallBack {
+    fn get_callback_link(&self) -> Option<BaseLogicCallBack> {
         self.call_back_
     }
 
-    fn set_callback_link(&mut self, value: *const BaseLogicCallBack) {
+    fn set_callback_link(&mut self, value: BaseLogicCallBack) {
         self.call_back_ = value;
     }
 }

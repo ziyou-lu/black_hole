@@ -161,7 +161,7 @@ pub(crate) trait IObject {
 
 	/// @brief 角色缓存数据(data_type 参照 E_ROLE_CACHE_DATA_TYPES )
 	fn set_cache_data(&self, data_type: i32, cache_data: &str) -> bool;
-	fn get_cache_data(&self, data_type: i32) -> str;
+	fn get_cache_data(&self, data_type: i32) -> String;
 
 	//////////////////////////////////////////////////////////////////////////
 	// 主从对象相关

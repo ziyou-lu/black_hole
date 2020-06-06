@@ -147,6 +147,210 @@ pub(crate) trait ICore {
     fn get_frame_seconds(&self) -> f32;
 }
 
+struct Core{}
+
+impl ICore for Core {
+    fn get_instance(&self) {
+        unimplemented!()
+    }
+
+    fn get_work_path(&self) -> String {
+        unimplemented!()
+    }
+
+    fn get_script_path(&self) -> String {
+        unimplemented!()
+    }
+
+    fn get_resource_path(&self) -> String {
+        unimplemented!()
+    }
+
+    fn get_main_config_path(&self) -> String {
+        unimplemented!()
+    }
+
+    fn set_sleep_time(&self, value: i32) {
+        unimplemented!()
+    }
+
+    fn get_sleep_time(&self) -> i32 {
+        unimplemented!()
+    }
+
+    fn set_quit(&self, value: bool) {
+        unimplemented!()
+    }
+
+    fn get_quit(&self) -> bool {
+        unimplemented!()
+    }
+
+    fn execute(&self) -> bool {
+        unimplemented!()
+    }
+
+    fn set_log_type(&self, log_type: i32) {
+        unimplemented!()
+    }
+
+    fn get_log_type(&self) -> i32 {
+        unimplemented!()
+    }
+
+    fn trace_log(&self, log: &str, log_type: i32) {
+        unimplemented!()
+    }
+
+    fn dump_file(&self, file_type: &str, file: &str) {
+        unimplemented!()
+    }
+
+    fn find_interface(&self, name: &str) {
+        unimplemented!()
+    }
+
+    fn get_interface(&self, name: &str) -> *const dyn IBaseInterface {
+        unimplemented!()
+    }
+
+    fn get_interface_same_space(&self, p_bi: *const dyn IBaseInterface, name: &str) {
+        unimplemented!()
+    }
+
+    fn release_interface(&self, p_bi: *const dyn IBaseInterface) {
+        unimplemented!()
+    }
+
+    fn get_entity_info(&self, name: &str) -> *const dyn IEntityInfo {
+        unimplemented!()
+    }
+
+    fn get_main_entity(&self) -> *const dyn IBaseEntity {
+        unimplemented!()
+    }
+
+    fn get_entity(&self) -> *const dyn IBaseEntity {
+        unimplemented!()
+    }
+
+    fn get_all_entity(&self, result: &dyn IArrayList) -> u32 {
+        unimplemented!()
+    }
+
+    fn lookup_entity(&self, name: &str) -> *const dyn IBaseEntity {
+        unimplemented!()
+    }
+
+    fn lookup_entity_more(&self, name: &str, result: &mut dyn IArrayList) -> u32 {
+        unimplemented!()
+    }
+
+    fn create_entity(&self, name: &str) -> *const dyn IBaseEntity {
+        unimplemented!()
+    }
+
+    fn create_entity_args(&self, name: &str, args: &dyn IArrayList) -> *const dyn IBaseEntity {
+        unimplemented!()
+    }
+
+    fn create_entity_same_space(&self, entity: *const dyn IBaseEntity, name: &str, args: &dyn IArrayList) -> *const dyn IBaseEntity {
+        unimplemented!()
+    }
+
+    fn delete_entity(&self, id: &ObjId) -> bool {
+        unimplemented!()
+    }
+
+    fn set_can_del_by_script(&self, entity: *const dyn IBaseEntity, value: bool) {
+        unimplemented!()
+    }
+
+    fn get_property(&self, entity: *const dyn IBaseEntity, prop: &str, value: &mut dyn IAny) -> bool {
+        unimplemented!()
+    }
+
+    fn set_property(&self, entity: *const dyn IBaseEntity, prop: &str, value: &dyn IAny) -> bool {
+        unimplemented!()
+    }
+
+    fn invoke_method(&self, entity: *const dyn IBaseEntity, func: &str, args: &dyn IArrayList, res: &mut dyn IArrayList) -> bool {
+        unimplemented!()
+    }
+
+    fn run_function(&self, func: &str, args: &dyn IArrayList, res: &mut dyn IArrayList) -> bool {
+        unimplemented!()
+    }
+
+    fn exec_async_proc(&self, script: &str, func: &str, args: &dyn IArrayList, res: *const dyn IArrayList) -> bool {
+        unimplemented!()
+    }
+
+    fn find_async_proc(&self, script: &str, func: &str, id: &ObjId) -> bool {
+        unimplemented!()
+    }
+
+    fn kill_async_proc(&self, script: &str, func: &str, id: &ObjId) -> bool {
+        unimplemented!()
+    }
+
+    fn gen_async_event(&self, id: &ObjId, event: &str, args: &dyn IArrayList) -> u32 {
+        unimplemented!()
+    }
+
+    fn bind_script(&self, entity: *const dyn IBaseEntity, script: &str) -> bool {
+        unimplemented!()
+    }
+
+    fn bind_logic(&self, entity: *const dyn IBaseEntity, logic: &str, args: &dyn IArrayList) -> bool {
+        unimplemented!()
+    }
+
+    fn find_callback(&self, entity: *const dyn IBaseEntity, event: &str) -> bool {
+        unimplemented!()
+    }
+
+    fn exec_callback(&self, entity: *const dyn IBaseEntity, event: &str, args: &dyn IArrayList, res: *const dyn IArrayList) -> bool {
+        unimplemented!()
+    }
+
+    fn add_execute(&self, entity: *const dyn IBaseEntity) -> bool {
+        unimplemented!()
+    }
+
+    fn remove_execute(&self, entity: *const dyn IBaseEntity) -> bool {
+        unimplemented!()
+    }
+
+    fn find_global_value(&self, name: &str) -> bool {
+        unimplemented!()
+    }
+
+    fn remove_global_value(&self, name: &str) -> bool {
+        unimplemented!()
+    }
+
+    fn set_global_value(&self, name: &str, value: &dyn IAny) -> bool {
+        unimplemented!()
+    }
+
+    fn get_global_value(&self, name: &str) -> Box<dyn IAny> {
+        unimplemented!()
+    }
+
+    fn get_global_count(&self) -> u32 {
+        unimplemented!()
+    }
+
+    fn get_global_list(&self, result: &mut dyn IArrayList) -> u32 {
+        unimplemented!()
+    }
+
+    fn get_frame_seconds(&self) -> f32 {
+        unimplemented!()
+    }
+}
+
 #[derive(Debug)]
 enum ELogType
 {

@@ -20,19 +20,19 @@ pub(crate) trait IBaseInterfaceCreator {
     fn get_name(&self) -> String;
 
     // 创建
-    fn create(&self) -> * dyn IBaseInterface;
+    fn create<T: IBaseInterface>(&self) -> Option<T>;
 
     // 删除
-    fn destroy(&self, p: * dyn IBaseInterface);
+    fn destroy<T: IBaseInterface>(&self, interface: T);
 
     // 获得下一个
-    fn get_next(&self) -> * dyn IBaseInterface;
+    fn get_next<T: IBaseInterface>(&self) -> Option<T>;
 
 
 }
 
 struct BaseInterfaceCreator {
-    next_: *BaseInterfaceCreator,
+    next_: Some(BaseInterfaceCreator),
 }
 
 impl IBaseInterfaceCreator for BaseInterfaceCreator {
@@ -44,15 +44,15 @@ impl IBaseInterfaceCreator for BaseInterfaceCreator {
         unimplemented!()
     }
 
-    fn create(&self) -> *const dyn IBaseInterface {
+    fn create<T: IBaseInterface>(&self) -> Option<T> {
         unimplemented!()
     }
 
-    fn destroy(&self, p: *const dyn IBaseInterface) {
+    fn destroy<T: IBaseInterface>(&self, interface: T) {
         unimplemented!()
     }
 
-    fn get_next(&self) -> *const dyn IBaseInterface {
-        unimplemented!()
+    fn get_next<T: IBaseInterface>(&self) -> Option<T> {
+        self.next_
     }
 }

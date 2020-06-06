@@ -46,31 +46,31 @@ pub(crate) trait IEntityCreator {
     fn get_name(&self) -> String;
 
     //创建
-    fn create(&self) -> *const dyn IBaseEntity;
+    fn create<T: IBaseEntity>(&self) -> Option<T>;
 
     // 删除
-    fn destroy(&self, p: *const dyn IBaseEntity);
+    fn destroy<T: IBaseEntity>(&self, p: T);
 
     // 获取下一个
-    fn get_next(&self) -> *const dyn IEntityCreator;
+    fn get_next<T: IEntityCreator>(&self) -> Option<T>;
 
     // 获得属性链表
-    fn get_property_link(&self) -> *const EntityProp;
+    fn get_property_link(&self) -> Option<EntityProp>;
 
     // 设置属性链表
-    fn set_property_link(&self, value: *const EntityProp);
+    fn set_property_link(&mut self, value: EntityProp);
 
     // 获得方法链表
-    fn get_method_link(&self) -> *const EntityFunc;
+    fn get_method_link(&self) -> Option<EntityFunc>;
 
     // 设置方法链表
-    fn set_method_link(&self, value: *const EntityFunc);
+    fn set_method_link(&mut self, value: EntityFunc);
 }
 
 struct EntityCreator {
-    next_: * EntityCreator,
-    property_: * EntityProp,
-    method_: * EntityFunc,
+    next_: Some(EntityCreator),
+    property_: Some(EntityProp),
+    method_: Some(EntityFunc),
 }
 
 impl IEntityCreator for EntityCreator {
@@ -94,27 +94,27 @@ impl IEntityCreator for EntityCreator {
         unimplemented!()
     }
 
-    fn destroy(&self, p: *const dyn IBaseEntity) {
+    fn destroy<T: IBaseEntity>(&self, p: T) {
         unimplemented!()
     }
 
-    fn get_next(&self) -> *const dyn IEntityCreator {
-        self.next_
+    fn get_next<T: IEntityCreator>(&self) -> Option<T> {
+        unimplemented!()
     }
 
-    fn get_property_link(&self) -> *const EntityProp {
+    fn get_property_link(&self) -> Option<EntityProp> {
         self.property_
     }
 
-    fn set_property_link(&mut self, value: *const EntityProp) {
+    fn set_property_link(&mut self, value: EntityProp) {
         self.property_ = value;
     }
 
-    fn get_method_link(&self) -> *const EntityFunc {
+    fn get_method_link(&self) -> Option<EntityFunc> {
         self.method_
     }
 
-    fn set_method_link(&mut self, value: *const EntityFunc) {
+    fn set_method_link(&mut self, value: EntityFunc) {
         self.method_ = value;
     }
 }

@@ -30,16 +30,16 @@ pub(crate) trait IBaseEntity {
     fn get_memory_usage(&self) -> u32;
 
     //  获得核心接口
-    fn get_core(&self) -> * dyn ICore;
+    fn get_core<T: ICore>(&self) -> Option<T>;
 
     // 获得实体类信息
-    fn get_entity_info(&self) -> * dyn IEntityInfo;
+    fn get_entity_info<T: IEntityInfo>(&self) -> Option<T>;
 
     // 获得绑定的脚本
-    fn get_entity_script(&self) -> * dyn IEntityScript;
+    fn get_entity_script<T: IEntityScript>(&self) -> Option<T>;
 
     // 获得对象ID
-    fn get_entity_id(&self) -> ObjId;
+    fn get_entity_id(&self) -> Option<ObjId>;
 
     // 是否已删除
     fn get_deleted(&self) -> bool;
@@ -47,11 +47,11 @@ pub(crate) trait IBaseEntity {
     // 是否可以被脚本删除
     fn get_can_del_by_script(&self) -> bool;
 
-    fn set_core(&mut self, value: * dyn ICore);
+    fn set_core<T: Icore>(&mut self, value: T);
 
-    fn set_entity_info(&mut self, value: * dyn IEntityInfo);
+    fn set_entity_info<T: IEntityInfo>(&mut self, value: T);
 
-    fn set_entity_script(&mut self, value: * dyn IEntityScript);
+    fn set_entity_script<T: IEntityScript>(&mut self, value: T);
 
     fn set_entity_id(&mut self, value: ObjId);
 
@@ -61,12 +61,12 @@ pub(crate) trait IBaseEntity {
 }
 
 struct BaseEntity {
-    core_: * dyn ICore,
-    entity_info_: * dyn IEntityInfo,
-    entity_script_: *dyn IEntityScript,
+    core_: Some(dyn ICore),
+    entity_info_: Some(dyn IEntityInfo),
+    entity_script_: Some(dyn IEntityScript),
     deleted_: bool,
     can_del_by_script_: bool,
-    entity_id_: ObjId
+    entity_id_: Some(ObjId)
 }
 
 impl IBaseEntity for BaseEntity {
@@ -88,20 +88,20 @@ impl IBaseEntity for BaseEntity {
         0
     }
 
-    fn get_core(&self) -> *const dyn ICore {
+    fn get_core<T: ICore>(&self) -> Option<T> {
         self.core_
     }
 
-    fn get_entity_info(&self) -> *const dyn IEntityInfo {
+    fn get_entity_info<T: IEntityInfo>(&self) -> Option<T> {
         self.entity_info_
     }
 
-    fn get_entity_script(&self) -> *const dyn IEntityScript {
+    fn get_entity_script<T: IEntityScript>(&self) -> Option<T> {
         self.entity_script_
     }
 
-    fn get_entity_id(&self) -> &ObjId {
-        &self.entity_id_
+    fn get_entity_id(&self) -> Option<ObjId> {
+        unimplemented!()
     }
 
     fn get_deleted(&self) -> bool {
@@ -112,21 +112,22 @@ impl IBaseEntity for BaseEntity {
         self.can_del_by_script_
     }
 
-    fn set_core(&mut self, value: *const dyn ICore) {
+    fn set_core<T: Icore>(&mut self, value: T) {
         self.core_ = value;
     }
 
-    fn set_entity_info(&mut self, value: *const dyn IEntityInfo) {
+    fn set_entity_info<T: IEntityInfo>(&mut self, value: T) {
         self.entity_info_ = value;
     }
 
-    fn set_entity_script(&mut self, value: *const dyn IEntityScript) {
+    fn set_entity_script<T: IEntityScript>(&mut self, value: T) {
         self.entity_script_ = value;
     }
 
     fn set_entity_id(&mut self, value: ObjId) {
         self.entity_id_ = value;
     }
+
 
     fn set_deleted(&mut self, value: bool) {
         self.deleted_ = value;
