@@ -45,7 +45,7 @@ pub(crate) trait IObject {
     fn get_index_in_container(&self) -> i32;
 
     // 获取父对象
-    fn get_parent_obj(&self) -> * dyn IObject;
+    fn get_parent_obj<T: IObject>(&self) -> Option<T>;
 
     // 返回容器容量
     fn get_container_capacity(&self) -> i32;
@@ -60,25 +60,25 @@ pub(crate) trait IObject {
     fn get_child_obj_number(&self) -> i32;
 
     // 获得指定位置子对象
-    fn get_child_obj_by_index(&self, index: i32) -> * dyn IObject;
+    fn get_child_obj_by_index<T: IObject>(&self, index: i32) -> Option<T>;
 
     // 根据名字获得子对象
-    fn get_child_obj_by_name(&self, name: &str) -> * dyn IObject;
+    fn get_child_obj_by_name<T: IObject>(&self, name: &str) -> Option<T>;
 
     // 获得子对象列表
-    fn get_child_obj_id_list(&self, class_type: i32, result: &dyn IArrayList);
+    fn get_child_obj_id_list<T: IArrayList>(&self, class_type: i32, result: &mut T);
 
     // 查找子对象
     fn search_child_obj_by_name(&self, name: &str, class_type: i32) -> Option<ObjId>;
 
     // 查找多个子对象
-    fn search_more_child_obj_by_name(&self, name: &str, class_type: i32, result: &mut dyn IArrayList);
+    fn search_more_child_obj_by_name<T: IArrayList>(&self, name: &str, class_type: i32, result: &mut T);
 
     // 使用配置名查找子对象
     fn search_child_obj_by_config(&self, config: i64, class_type: i32) -> Option<ObjId>;
 
     // 使用配置名查找多个子对象
-    fn search_more_child_obj_by_config(&self, config: i64, class_type: i32, result: &dyn IArrayList);
+    fn search_more_child_obj_by_config<T: IArrayList>(&self, config: i64, class_type: i32, result: &mut T);
 
     // 清空子对象
     fn clear_child_obj(&self);
@@ -96,7 +96,7 @@ pub(crate) trait IObject {
     fn get_container_refs(&self) -> i32;
 
     // 获取容器名字列表
-    fn get_container_list(&self, result: &mut dyn IArrayList);
+    fn get_container_list<T: IArrayList>(&self, result: &mut T);
 
     // 对象坐标X
     fn get_pos_x(&self) -> f32;
@@ -118,15 +118,15 @@ pub(crate) trait IObject {
 	/// @brief 获得表数量
 	fn get_record_count(&self) -> i32;
 	/// @brief 获得对象表格访问接口
-	fn get_record_by_index(&self, index: i32) -> * dyn IRecord;
+	fn get_record_by_index<T: IRecord>(&self, index: i32) -> Option<T>;
 	/// @brief 获得指定索引的表格访问接口
-	fn get_record(&self, name: &str) -> * dyn IRecord;
+	fn get_record<T: IRecord>(&self, name: &str) -> Option<T>;
 	/// @brief 表是否存在
 	fn is_record_exist(&self, name: &str) -> bool;
 	/// @brief 获得表格的索引值（返回-1表示未找到）
 	fn get_record_index(&self, name: &str) -> i32;
 	/// @brief 获得表名称列表
-	fn get_record_name_list(&self, result: &mut dyn IArrayList) -> i32;
+	fn get_record_name_list<T: IArrayList>(&self, result: &mut T) -> i32;
 	/// @brief  获得表是否可视
 	fn is_record_visible(&self, name: &str) -> bool;
 	/// @brief 获得表是否公共可视
@@ -169,7 +169,7 @@ pub(crate) trait IObject {
 	/// @brief 添加删除获取从对象
 	fn add_slave_obj(&self, slave_obj: &ObjId) -> bool;
 	fn remove_slave_obj(&self, slave_obj: &ObjId) -> bool;
-	fn get_salve_objs(&self, slave_objs: &mut dyn IArrayList) -> bool;
+	fn get_salve_objs<T: IArrayList>(&self, slave_objs: &mut T) -> bool;
 
 	/// @brief 设置主对象
 	fn get_master_obj(&self) -> Option<ObjId>;
@@ -214,7 +214,7 @@ pub(crate) trait IObject {
 	/// @brief 获得属性数量
 	fn get_attr_count(&self) -> i32;
 	/// @brief 获得属性名称列表
-	fn get_attr_name_list(&self, result: &mut dyn IArrayList) -> i32;
+	fn get_attr_name_list<T: IArrayList>(&self, result: &mut T) -> i32;
 	//////////////////////////////////////////////////////////////////////////
 	// 属性回调相关
 	/// @brief 查找关键属性回调是否存在
@@ -236,7 +236,7 @@ pub(crate) trait IObject {
 	/// @brief 获得临时数据数量
 	fn get_volatile_count(&self) -> i32;
 	/// @brief 获得临时数据名称列表
-	fn get_volatile_name_list(&self, result: &dyn IArrayList) -> i32;
+	fn get_volatile_name_list<T: IArrayList>(&self, result: &mut T) -> i32;
 
 	/// @brief 删除临时数据
 	fn remove_volatile(&self, name: &str) -> bool;
@@ -245,7 +245,7 @@ pub(crate) trait IObject {
 
 }
 
-trait IObjectAttr<T> {
+trait IObjectAttr {
 	/// @brief 增加(减少)属性值
 	fn inc_attr<T>(&self, name: &str, value: T) -> bool;
 	fn inc_attr_index<T>(&self, index: i32, value: T) -> bool;
@@ -312,7 +312,7 @@ impl IObject for Object {
 		unimplemented!()
 	}
 
-	fn get_parent_obj(&self) -> *const dyn IObject {
+	fn get_parent_obj<T: IObject>(&self) -> Option<T> {
 		unimplemented!()
 	}
 
@@ -332,15 +332,15 @@ impl IObject for Object {
 		unimplemented!()
 	}
 
-	fn get_child_obj_by_index(&self, index: i32) -> *const dyn IObject {
+	fn get_child_obj_by_index<T: IObject>(&self, index: i32) -> Option<T> {
 		unimplemented!()
 	}
 
-	fn get_child_obj_by_name(&self, name: &str) -> *const dyn IObject {
+	fn get_child_obj_by_name<T: IObject>(&self, name: &str) -> Option<T> {
 		unimplemented!()
 	}
 
-	fn get_child_obj_id_list(&self, class_type: i32, result: &dyn IArrayList) {
+	fn get_child_obj_id_list<T: IArrayList>(&self, class_type: i32, result: &mut T) {
 		unimplemented!()
 	}
 
@@ -348,7 +348,7 @@ impl IObject for Object {
 		unimplemented!()
 	}
 
-	fn search_more_child_obj_by_name(&self, name: &str, class_type: i32, result: &mut dyn IArrayList) {
+	fn search_more_child_obj_by_name<T: IArrayList>(&self, name: &str, class_type: i32, result: &mut T) {
 		unimplemented!()
 	}
 
@@ -356,7 +356,7 @@ impl IObject for Object {
 		unimplemented!()
 	}
 
-	fn search_more_child_obj_by_config(&self, config: i64, class_type: i32, result: &dyn IArrayList) {
+	fn search_more_child_obj_by_config<T: IArrayList>(&self, config: i64, class_type: i32, result: &mut T) {
 		unimplemented!()
 	}
 
@@ -380,7 +380,7 @@ impl IObject for Object {
 		unimplemented!()
 	}
 
-	fn get_container_list(&self, result: &mut dyn IArrayList) {
+	fn get_container_list<T: IArrayList>(&self, result: &mut T) {
 		unimplemented!()
 	}
 
@@ -404,11 +404,11 @@ impl IObject for Object {
 		unimplemented!()
 	}
 
-	fn get_record_by_index(&self, index: i32) -> *const dyn IRecord {
+	fn get_record_by_index<T: IRecord>(&self, index: i32) -> Option<T> {
 		unimplemented!()
 	}
 
-	fn get_record(&self, name: &str) -> *const dyn IRecord {
+	fn get_record<T: IRecord>(&self, name: &str) -> Option<T> {
 		unimplemented!()
 	}
 
@@ -420,7 +420,7 @@ impl IObject for Object {
 		unimplemented!()
 	}
 
-	fn get_record_name_list(&self, result: &mut dyn IArrayList) -> i32 {
+	fn get_record_name_list<T: IArrayList>(&self, result: &mut T) -> i32 {
 		unimplemented!()
 	}
 
@@ -484,7 +484,7 @@ impl IObject for Object {
 		unimplemented!()
 	}
 
-	fn get_salve_objs(&self, slave_objs: &mut dyn IArrayList) -> bool {
+	fn get_salve_objs<T: IArrayList>(&self, slave_objs: &mut T) -> bool {
 		unimplemented!()
 	}
 
@@ -560,7 +560,7 @@ impl IObject for Object {
 		unimplemented!()
 	}
 
-	fn get_attr_name_list(&self, result: &mut dyn IArrayList) -> i32 {
+	fn get_attr_name_list<T: IArrayList>(&self, result: &mut T) -> i32 {
 		unimplemented!()
 	}
 
@@ -592,7 +592,7 @@ impl IObject for Object {
 		unimplemented!()
 	}
 
-	fn get_volatile_name_list(&self, result: &dyn IArrayList) -> i32 {
+	fn get_volatile_name_list<T: IArrayList>(&self, result: &mut T) -> i32 {
 		unimplemented!()
 	}
 

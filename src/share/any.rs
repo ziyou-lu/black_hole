@@ -6,16 +6,16 @@ pub(crate) trait IAny {
 
     fn is_number(&self) -> bool;
 
-    fn assign(&self, src: &dyn IAny);
+    fn assign(&self, src: &Self);
 }
 
-trait IAnyOp<T> {
+trait IAnyOp {
     fn get_value<T>(&self) -> Option<T>;
 
     fn set_value<T>(&self, value: T);
 }
 
-impl IAnyOp<T> for dyn IAny {
+impl IAnyOp for dyn IAny {
     fn get_value<T>(&self) -> Option<T> {
         unimplemented!()
     }

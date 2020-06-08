@@ -37,7 +37,7 @@ trait IFuncInfo {
 // 实体信息
 pub(crate) trait IEntityInfo {
     // 获取创建器
-    fn get_creator(&self) -> *const dyn IEntityCreator;
+    fn get_creator<T: IEntityCreator>(&self) -> Option<T>;
 
     // 获取父类名称
     fn get_parent_name(&self) -> String;
@@ -49,28 +49,28 @@ pub(crate) trait IEntityInfo {
     fn get_entity_name(&self) -> String;
 
     // 获取父类信息
-    fn get_parent(&self) -> *const dyn IEntityInfo;
+    fn get_parent<T: IEntityInfo>(&self) -> Option<T>;
 
     // 是否属于某类或是自雷
     fn is_kind_of(&self, name: &str) -> bool;
 
     // 是否属于统一名字空间的某类或者是其子类
-    fn is_kind_same_space(&self, p_entity: *const dyn IBaseEntity, name: &str) -> bool;
+    fn is_kind_same_space<T: IBaseEntity>(&self, p_entity: &T, name: &str) -> bool;
 
     // 实体属性
     fn get_property_count(&self) -> u32;
 
     // 获得属性名字列表
-    fn get_property_list(&self, result: &dyn IArrayList) -> u32;
+    fn get_property_list<T: IArrayList>(&self, result: &mut T) -> u32;
 
     // 在本类中获得属性信息
-    fn get_property_info(&self, name: &str) -> *const dyn IPropInfo;
+    fn get_property_info<T: IPropInfo>(&self, name: &str) -> Option<T>;
 
     // 在本类和父类查找属性嘻嘻
-    fn find_property_info(&self, name: &str) -> *const dyn IPropInfo;
+    fn find_property_info<T: IPropInfo>(&self, name: &str) -> Option<T>;
 
     // 获得本类和父类的属性名字列表
-    fn get_property_all(&self, result: &dyn IArrayList) -> u32;
+    fn get_property_all<T: IArrayList>(&self, result: &mut T) -> u32;
 }
 
 

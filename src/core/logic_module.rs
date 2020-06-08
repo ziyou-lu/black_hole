@@ -12,11 +12,11 @@
 use crate::core::gravity::IGravity;
 
 pub(crate) trait ILogicModule {
-    fn init(&self, gravity: *const dyn IGravity) -> bool;
+    fn init<T: IGravity>(&self, gravity: &T) -> bool;
 
-    fn shut(&self, gravity: *const dyn IGravity) -> bool;
+    fn shut<T: IGravity>(&self, gravity: &T) -> bool;
 
-    fn before_launch(&self, gravity: *const dyn IGravity) -> bool {
+    fn before_launch<T: IGravity>(&self, gravity: &T) -> bool {
         true
     }
 }

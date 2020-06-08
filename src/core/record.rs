@@ -24,16 +24,16 @@ pub(crate) trait IRecord {
 	/// @brief 添加一行，返回插入的行号
 	fn add_row(&self, row: i32) -> i32;
 	/// @brief 添加一行并初始化，返回插入的行号
-	fn add_row_with_value(&self, row: i32, value: &dyn IArrayList) -> i32;
+	fn add_row_with_value<T: IArrayList>(&self, row: i32, value: &T) -> i32;
 	/// @brief 删除一行
 	fn delete_row(&self, row: i32) -> bool;
 	/// @brief 清除所有表数据
 	fn clear_all_row(&self) -> bool;
 
 	/// @brief 写一行的表数据
-	fn set_row_with_value(&self, row: i32, value: &dyn IArrayList) -> bool;
+	fn set_row_with_value<T: IArrayList>(&self, row: i32, value: &T) -> bool;
 	/// @brief 读一行表数据
-	fn get_row_value(&self, row: i32, value: &mut dyn IArrayList) -> bool;
+	fn get_row_value<T: IArrayList>(&self, row: i32, value: &mut T) -> bool;
 
 }
 

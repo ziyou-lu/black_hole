@@ -53,60 +53,60 @@ pub(crate) trait ICore {
     // 查找功能接口
     fn find_interface(&self, name: &str);
     // 获取功能接口
-    fn get_interface(&self, name: &str) -> * dyn IBaseInterface;
+    fn get_interface<T: IBaseInterface>(&self, name: &str) -> Option<T>;
     // 获取统一名字空间中的功能接口
-    fn get_interface_same_space(&self, p_bi: * dyn IBaseInterface, name: &str);
+    fn get_interface_same_space<T: IBaseInterface>(&self, p_bi: &T, name: &str);
 
     // 释放功能接口
-    fn release_interface(&self, p_bi: * dyn IBaseInterface);
+    fn release_interface<T: IBaseInterface>(&self, bi: &T);
 
     // 查找实体类信息
-    fn get_entity_info(&self, name: &str) -> * dyn IEntityInfo;
+    fn get_entity_info<T: IEntityInfo>(&self, name: &str) -> Option<T>;
 
     // 获得住实体
-    fn get_main_entity(&self) -> * dyn IBaseEntity;
+    fn get_main_entity<T: IBaseEntity>(&self) -> Option<T>;
 
     // 获得实体
-    fn get_entity(&self) -> * dyn IBaseEntity;
+    fn get_entity<T: IBaseEntity>(&self) -> Option<T>;
 
     // 获得所有的实体对象ID
-    fn get_all_entity(&self, result: &dyn IArrayList) -> u32;
+    fn get_all_entity<T: IArrayList>(&self, result: &mut T) -> u32;
 
     // 查找名字符合的第一个实体
-    fn lookup_entity(&self, name: &str) -> *dyn IBaseEntity;
+    fn lookup_entity<T: IBaseEntity>(&self, name: &str) -> Option<T>;
 
     // 查找名字复合的所有实体
-    fn lookup_entity_more(&self, name: &str, result: &mut dyn IArrayList) -> u32;
+    fn lookup_entity_more<T:IArrayList>(&self, name: &str, result: &mut T) -> u32;
 
     // 创建实体
-    fn create_entity(&self, name: &str) -> * dyn IBaseEntity;
+    fn create_entity<T: IBaseEntity>(&self, name: &str) -> Option<T>;
 
     // 带参数创建实体
-    fn create_entity_args(&self, name: &str, args: & dyn IArrayList) -> *dyn IBaseEntity;
+    fn create_entity_args<T: IBaseEntity, U: IArrayList>(&self, name: &str, args: &U) -> Option<T>;
 
     // 穿件统一名字空间中的实体
-    fn create_entity_same_space(&self, entity: * dyn IBaseEntity, name: &str, args: &dyn IArrayList) -> * dyn IBaseEntity;
+    fn create_entity_same_space<T: IBaseEntity, U: IArrayList>(&self, entity: &T, name: &str, args: &U) -> * dyn IBaseEntity;
 
     // 删除实体
     fn delete_entity(&self, id: &ObjId) -> bool;
 
     // 是否允许实体被脚本删除
-    fn set_can_del_by_script(&self, entity: * dyn IBaseEntity, value: bool);
+    fn set_can_del_by_script<T: IBaseEntity>(&self, entity: &T, value: bool);
 
     // 获得实体属性
-    fn get_property(&self, entity: * dyn IBaseEntity, prop: &str, value: &mut dyn IAny) -> bool;
+    fn get_property<T: IBaseEntity, U: IAny>(&self, entity: &T, prop: &str, value: &mut U) -> bool;
 
     // 设置实体属性
-    fn set_property(&self, entity: * dyn IBaseEntity, prop: &str, value: & dyn IAny) -> bool;
+    fn set_property<T: IBaseEntity, U: IAny>(&self, entity: &T, prop: &str, value: &U) -> bool;
 
     // 调用实体方法
-    fn invoke_method(&self, entity: * dyn IBaseEntity, func: &str, args: & dyn IArrayList, res: &mut dyn IArrayList) -> bool;
+    fn invoke_method<T: IBaseEntity, U: IArrayList>(&self, entity: &T, func: &str, args: &U, res: &U) -> bool;
 
     // 运行脚本扩展函数
-    fn run_function(&self, func: &str, args: & dyn IArrayList, res: &mut dyn IArrayList) -> bool;
+    fn run_function<T: IArrayList>(&self, func: &str, args: &T, res: &T) -> bool;
 
     // 运行异步进程
-    fn exec_async_proc(&self, script: &str, func: &str, args: & dyn IArrayList, res: * dyn IArrayList) -> bool;
+    fn exec_async_proc<T: IArrayList>(&self, script: &str, func: &str, args: &T, res: &T) -> bool;
 
     // 查找异步进程
     fn find_async_proc(&self, script: &str, func: &str, id: & ObjId) -> bool;
@@ -115,33 +115,33 @@ pub(crate) trait ICore {
     fn kill_async_proc(&self, script: &str, func: &str, id: &ObjId) -> bool;
 
     // 昌盛异步时间，返回被触发的过程数量
-    fn gen_async_event(&self, id: & ObjId, event: &str, args: & dyn IArrayList) -> u32;
+    fn gen_async_event<T: IArrayList>(&self, id: & ObjId, event: &str, args: &T) -> u32;
 
     // 实体绑定脚本
-    fn bind_script(&self, entity: * dyn IBaseEntity, script: &str) -> bool;
+    fn bind_script<T: IBaseEntity>(&self, entity: &T, script: &str) -> bool;
 
     // 实体绑定逻辑类
-    fn bind_logic(&self, entity: * dyn IBaseEntity, logic: &str, args: & dyn IArrayList) -> bool;
+    fn bind_logic<T: IBaseEntity, U: IArrayList>(&self, entity: &T, logic: &str, args: &U) -> bool;
 
     // 查找脚本回调
-    fn find_callback(&self, entity: * dyn IBaseEntity, event: &str) -> bool;
+    fn find_callback<T: IBaseEntity>(&self, entity: &T, event: &str) -> bool;
 
     // 执行脚本回调
-    fn exec_callback(&self, entity: * dyn IBaseEntity, event: &str, args: & dyn IArrayList, res: * dyn IArrayList) -> bool;
+    fn exec_callback<T: IBaseEntity, U: IArrayList>(&self, entity: &T, event: &str, args: &U, res: &U) -> bool;
 
     // 添加到运行队列
-    fn add_execute(&self, entity: * dyn IBaseEntity) -> bool;
+    fn add_execute<T: IBaseEntity>(&self, entity: &T) -> bool;
 
     // 从运行队列移除
-    fn remove_execute(&self, entity: * dyn IBaseEntity) -> bool;
+    fn remove_execute<T: IBaseEntity>(&self, entity: &T) -> bool;
 
     // 全局变量
     fn find_global_value(&self, name: &str) -> bool;
     fn remove_global_value(&self, name: &str) -> bool;
-    fn set_global_value(&self, name: &str, value: & dyn IAny) -> bool;
-    fn get_global_value(&self, name: &str) -> Box<dyn IAny>;
+    fn set_global_value<T: IAny>(&self, name: &str, value: &T) -> bool;
+    fn get_global_value<T: IAny>(&self, name: &str) -> Option<T>;
     fn get_global_count(&self) -> u32;
-    fn get_global_list(&self, result: &mut dyn IArrayList) -> u32;
+    fn get_global_list<T: IArrayList>(&self, result: &mut T) -> u32;
 
     // 获得当前帧时间
     fn get_frame_seconds(&self) -> f32;
@@ -210,51 +210,51 @@ impl ICore for Core {
         unimplemented!()
     }
 
-    fn get_interface(&self, name: &str) -> *const dyn IBaseInterface {
+    fn get_interface<T: IBaseInterface>(&self, name: &str) -> Option<T> {
         unimplemented!()
     }
 
-    fn get_interface_same_space(&self, p_bi: *const dyn IBaseInterface, name: &str) {
+    fn get_interface_same_space<T: IBaseInterface>(&self, p_bi: &T, name: &str) {
         unimplemented!()
     }
 
-    fn release_interface(&self, p_bi: *const dyn IBaseInterface) {
+    fn release_interface<T: IBaseInterface>(&self, bi: &T) {
         unimplemented!()
     }
 
-    fn get_entity_info(&self, name: &str) -> *const dyn IEntityInfo {
+    fn get_entity_info<T: IEntityInfo>(&self, name: &str) -> Option<T> {
         unimplemented!()
     }
 
-    fn get_main_entity(&self) -> *const dyn IBaseEntity {
+    fn get_main_entity<T: IBaseEntity>(&self) -> Option<T> {
         unimplemented!()
     }
 
-    fn get_entity(&self) -> *const dyn IBaseEntity {
+    fn get_entity<T: IBaseEntity>(&self) -> Option<T> {
         unimplemented!()
     }
 
-    fn get_all_entity(&self, result: &dyn IArrayList) -> u32 {
+    fn get_all_entity<T: IArrayList>(&self, result: &mut T) -> u32 {
         unimplemented!()
     }
 
-    fn lookup_entity(&self, name: &str) -> *const dyn IBaseEntity {
+    fn lookup_entity<T: IBaseEntity>(&self, name: &str) -> Option<T> {
         unimplemented!()
     }
 
-    fn lookup_entity_more(&self, name: &str, result: &mut dyn IArrayList) -> u32 {
+    fn lookup_entity_more<T: IArrayList>(&self, name: &str, result: &mut T) -> u32 {
         unimplemented!()
     }
 
-    fn create_entity(&self, name: &str) -> *const dyn IBaseEntity {
+    fn create_entity<T: IBaseEntity>(&self, name: &str) -> Option<T> {
         unimplemented!()
     }
 
-    fn create_entity_args(&self, name: &str, args: &dyn IArrayList) -> *const dyn IBaseEntity {
+    fn create_entity_args<T: IBaseEntity, U: IArrayList>(&self, name: &str, args: &U) -> Option<T> {
         unimplemented!()
     }
 
-    fn create_entity_same_space(&self, entity: *const dyn IBaseEntity, name: &str, args: &dyn IArrayList) -> *const dyn IBaseEntity {
+    fn create_entity_same_space<T: IBaseEntity, U: IArrayList>(&self, entity: &T, name: &str, args: &U) -> *const dyn IBaseEntity {
         unimplemented!()
     }
 
@@ -262,27 +262,27 @@ impl ICore for Core {
         unimplemented!()
     }
 
-    fn set_can_del_by_script(&self, entity: *const dyn IBaseEntity, value: bool) {
+    fn set_can_del_by_script<T: IBaseEntity>(&self, entity: &T, value: bool) {
         unimplemented!()
     }
 
-    fn get_property(&self, entity: *const dyn IBaseEntity, prop: &str, value: &mut dyn IAny) -> bool {
+    fn get_property<T: IBaseEntity, U: IAny>(&self, entity: &T, prop: &str, value: &mut U) -> bool {
         unimplemented!()
     }
 
-    fn set_property(&self, entity: *const dyn IBaseEntity, prop: &str, value: &dyn IAny) -> bool {
+    fn set_property<T: IBaseEntity, U: IAny>(&self, entity: &T, prop: &str, value: &U) -> bool {
         unimplemented!()
     }
 
-    fn invoke_method(&self, entity: *const dyn IBaseEntity, func: &str, args: &dyn IArrayList, res: &mut dyn IArrayList) -> bool {
+    fn invoke_method<T: IBaseEntity, U: IArrayList>(&self, entity: &T, func: &str, args: &U, res: &U) -> bool {
         unimplemented!()
     }
 
-    fn run_function(&self, func: &str, args: &dyn IArrayList, res: &mut dyn IArrayList) -> bool {
+    fn run_function<T: IArrayList>(&self, func: &str, args: &T, res: &T) -> bool {
         unimplemented!()
     }
 
-    fn exec_async_proc(&self, script: &str, func: &str, args: &dyn IArrayList, res: *const dyn IArrayList) -> bool {
+    fn exec_async_proc<T: IArrayList>(&self, script: &str, func: &str, args: &T, res: &T) -> bool {
         unimplemented!()
     }
 
@@ -294,31 +294,31 @@ impl ICore for Core {
         unimplemented!()
     }
 
-    fn gen_async_event(&self, id: &ObjId, event: &str, args: &dyn IArrayList) -> u32 {
+    fn gen_async_event<T: IArrayList>(&self, id: &ObjId, event: &str, args: &T) -> u32 {
         unimplemented!()
     }
 
-    fn bind_script(&self, entity: *const dyn IBaseEntity, script: &str) -> bool {
+    fn bind_script<T: IBaseEntity>(&self, entity: &T, script: &str) -> bool {
         unimplemented!()
     }
 
-    fn bind_logic(&self, entity: *const dyn IBaseEntity, logic: &str, args: &dyn IArrayList) -> bool {
+    fn bind_logic<T: IBaseEntity, U: IArrayList>(&self, entity: &T, logic: &str, args: &U) -> bool {
         unimplemented!()
     }
 
-    fn find_callback(&self, entity: *const dyn IBaseEntity, event: &str) -> bool {
+    fn find_callback<T: IBaseEntity>(&self, entity: &T, event: &str) -> bool {
         unimplemented!()
     }
 
-    fn exec_callback(&self, entity: *const dyn IBaseEntity, event: &str, args: &dyn IArrayList, res: *const dyn IArrayList) -> bool {
+    fn exec_callback<T: IBaseEntity, U: IArrayList>(&self, entity: &T, event: &str, args: &U, res: &U) -> bool {
         unimplemented!()
     }
 
-    fn add_execute(&self, entity: *const dyn IBaseEntity) -> bool {
+    fn add_execute<T: IBaseEntity>(&self, entity: &T) -> bool {
         unimplemented!()
     }
 
-    fn remove_execute(&self, entity: *const dyn IBaseEntity) -> bool {
+    fn remove_execute<T: IBaseEntity>(&self, entity: &T) -> bool {
         unimplemented!()
     }
 
@@ -330,11 +330,11 @@ impl ICore for Core {
         unimplemented!()
     }
 
-    fn set_global_value(&self, name: &str, value: &dyn IAny) -> bool {
+    fn set_global_value<T: IAny>(&self, name: &str, value: &T) -> bool {
         unimplemented!()
     }
 
-    fn get_global_value(&self, name: &str) -> Box<dyn IAny> {
+    fn get_global_value<T: IAny>(&self, name: &str) -> Option<T> {
         unimplemented!()
     }
 
@@ -342,7 +342,7 @@ impl ICore for Core {
         unimplemented!()
     }
 
-    fn get_global_list(&self, result: &mut dyn IArrayList) -> u32 {
+    fn get_global_list<T: IArrayList>(&self, result: &mut T) -> u32 {
         unimplemented!()
     }
 

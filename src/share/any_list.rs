@@ -12,10 +12,10 @@ use std::ops::Shl;
 
 pub(crate) trait IArrayList {
     // 合并列表
-    fn combine(&self, src: &dyn IArrayList) -> bool;
+    fn combine(&self, src: &Self) -> bool;
 
     // 附加列表
-    fn append(&self, src: &dyn IArrayList, start: u32, count: u32);
+    fn append(&self, src: &Self, start: u32, count: u32);
 
     // 清空
     fn clear(&self);
@@ -35,7 +35,7 @@ pub(crate) trait IArrayList {
 
 }
 
-trait IArrayListOp<T> {
+trait IArrayListOp {
     fn add_value<T>(&self, value: T) ->bool;
 
     fn set_value<T>(&self, value: T) -> bool;
@@ -47,7 +47,7 @@ trait IArrayListOp<T> {
     }
 }
 
-impl IArrayListOp<T> for dyn IArrayList {
+impl IArrayListOp for dyn IArrayList {
     fn add_value<T>(&self, value: T) -> bool {
         unimplemented!()
     }

@@ -20,19 +20,19 @@ pub(crate) trait IBaseInterfaceCreator {
     fn get_name(&self) -> String;
 
     // 创建
-    fn create<T: IBaseInterface>(&self) -> Option<T>;
+    fn create<T: IBaseInterface>(&self) -> T;
 
     // 删除
     fn destroy<T: IBaseInterface>(&self, interface: T);
 
     // 获得下一个
-    fn get_next<T: IBaseInterface>(&self) -> Option<T>;
+    fn get_next<T: IBaseInterface>(&self) -> &T;
 
 
 }
 
 struct BaseInterfaceCreator {
-    next_: Some(BaseInterfaceCreator),
+    next_: BaseInterfaceCreator,
 }
 
 impl IBaseInterfaceCreator for BaseInterfaceCreator {
@@ -44,7 +44,7 @@ impl IBaseInterfaceCreator for BaseInterfaceCreator {
         unimplemented!()
     }
 
-    fn create<T: IBaseInterface>(&self) -> Option<T> {
+    fn create<T: IBaseInterface>(&self) -> T {
         unimplemented!()
     }
 
@@ -52,7 +52,7 @@ impl IBaseInterfaceCreator for BaseInterfaceCreator {
         unimplemented!()
     }
 
-    fn get_next<T: IBaseInterface>(&self) -> Option<T> {
-        self.next_
+    fn get_next<T: IBaseInterface>(&self) -> &T {
+        &self.next_
     }
 }

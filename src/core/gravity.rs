@@ -17,16 +17,16 @@ use crate::core::black_hole_param::{LogicClassFunc, LogicEventFunc};
 
 pub(crate) trait IGravity {
     // 获得指定名称的逻辑模块
-    fn get_logic_module(&self, name: &str) -> *const dyn ILogicModule;
+    fn get_logic_module<T: ILogicModule>(&self, name: &str) -> Option<T>;
 
     // 获得指针对象
-    fn get_obj(&self, id: &ObjId) -> *const dyn IObject;
+    fn get_obj<T: IObject>(&self, id: &ObjId) -> Option<T>;
 
     // 获得场景对象指针
-    fn get_current_scene_obj(&self) -> *const dyn IObject;
+    fn get_current_scene_obj<T: IObject>(&self) -> Option<T>;
 
     // 获取当前场景对象
-    fn get_current_scene_obj_id(&self) -> Box<ObjId>;
+    fn get_current_scene_obj_id(&self) -> Option<ObjId>;
 
     // 获取当前场景ID
     fn get_current_scene_id(&self) -> i32;
@@ -35,7 +35,7 @@ pub(crate) trait IGravity {
     fn get_max_normal_scene_id(&self) -> i32;
 
     // 获得普通场景逻辑类名
-    fn get_scene_script(&self, id: i32) -> Box<String>;
+    fn get_scene_script(&self, id: i32) -> String;
 
     // 查找指定配置名的普通场景编号
     fn find_scene_id(&self, config: &str) -> i32;
@@ -50,7 +50,7 @@ pub(crate) trait IGravity {
     fn get_all_role_number(&self, id: i32) -> i32;
 
     // 获取指定场景内玩家唯一id列表
-    fn get_guid_list(&self, id: i32, result: &mut dyn IArrayList) -> i32;
+    fn get_guid_list<T: IArrayList>(&self, id: i32, result: &mut T) -> i32;
 
     // 获取指定场景类型
     fn get_scene_type(&self, id: i32) -> i32;
@@ -65,7 +65,7 @@ pub(crate) trait IGravity {
     fn get_scene_max_players(&self, id: i32) -> i32;
 
     // 获取所有分流场景号
-    fn get_diff_scenes(&self, main_id: i32, diff_scenes: &mut dyn IArrayList);
+    fn get_diff_scenes<T: IArrayList>(&self, main_id: i32, diff_scenes: &mut T);
 
     // 请求创建副本场景，在OnCloneScene回调里返回结果
     fn request_clone_scene(&self, prototype_scene_id: i32, guid: i64, down_time: i32, reuse: bool, args: &str) -> bool;
@@ -83,7 +83,7 @@ pub(crate) trait IGravity {
     fn find_role_guid(&self, role_name: &str) -> i64;
 
     // 根据角色guid, 获取角色名，返回空字符串表示角色不存在
-    fn find_role_name(&self, role_guid: i64) -> Box<String>;
+    fn find_role_name(&self, role_guid: i64) -> String;
 
     // 获得角色是否已被删除
     fn is_role_deleted(&self, role_guid: i64) -> bool;
@@ -176,8 +176,8 @@ pub(crate) trait IGravity {
     fn get_wall_exists(&self, x: f32, y: f32, z: f32) -> bool;
 
     // 寻路
-    fn point_find_path(&self, find_mode: i32, src_x: f32, src_y: f32, src_z: f32,
-                       dst_x: f32, dst_y: f32, dst_z: f32, point_list: &mut dyn IArrayList);
+    fn point_find_path<T: IArrayList>(&self, find_mode: i32, src_x: f32, src_y: f32, src_z: f32,
+                       dst_x: f32, dst_y: f32, dst_z: f32, point_list: &mut T);
 
     /***
        ******** 逻辑相关
@@ -204,8 +204,8 @@ pub(crate) trait IGravity {
     fn add_int_custom_hook(&self, logic_class: &str, msg: i32, func: LogicEventFunc, prior: i32) -> bool;
 
     // 执行指定编号的对象客户端回调处理函数
-    fn run_int_custom_hook(&self, obj_id: &ObjId, msg_id: i32, args: &dyn IArrayList) -> bool;
+    fn run_int_custom_hook<T: IArrayList>(&self, obj_id: &ObjId, msg_id: i32, args: &T) -> bool;
 
     // 执行指定对象的事件回调函数函数
-    fn run_event_callback(&self, event: &str, obj_id: &ObjId, sender: &ObjId, args: &dyn IArrayList) -> bool;
+    fn run_event_callback<T: IArrayList>(&self, event: &str, obj_id: &ObjId, sender: &ObjId, args: &T) -> bool;
 }

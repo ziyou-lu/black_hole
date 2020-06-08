@@ -12,9 +12,9 @@ use super::base_logic::IBaseLogic;
 
 #[derive(Debug)]
 pub struct BaseLogicCallBack {
-    name_: String,
-    mid_func_: fn(),
-    return_table_: bool,
+    pub name_: String,
+    pub mid_func_: fn(),
+    pub return_table_: bool,
     pub next_: Some(BaseLogicCallBack),
 }
 

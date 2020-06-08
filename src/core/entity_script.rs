@@ -16,7 +16,7 @@ pub(crate) trait IEntityScript {
     fn get_name(&self) -> String;
 
     // 获得逻辑类
-    fn get_logic(&self) -> * dyn IBaseLogic;
+    fn get_logic<T: IBaseLogic>(&self) -> Option<T>;
 
     // 添加回调
     fn add_callback(&self, event: &str, func: &str) -> bool;

@@ -68,9 +68,9 @@ pub(crate) trait IEntityCreator {
 }
 
 struct EntityCreator {
-    next_: Some(EntityCreator),
-    property_: Some(EntityProp),
-    method_: Some(EntityFunc),
+    next_: EntityCreator,
+    property_: EntityProp,
+    method_: EntityFunc,
 }
 
 impl IEntityCreator for EntityCreator {
@@ -102,16 +102,16 @@ impl IEntityCreator for EntityCreator {
         unimplemented!()
     }
 
-    fn get_property_link(&self) -> Option<EntityProp> {
-        self.property_
+    fn get_property_link(&self) -> &EntityProp {
+        &self.property_
     }
 
     fn set_property_link(&mut self, value: EntityProp) {
         self.property_ = value;
     }
 
-    fn get_method_link(&self) -> Option<EntityFunc> {
-        self.method_
+    fn get_method_link(&self) -> &EntityFunc {
+        &self.method_
     }
 
     fn set_method_link(&mut self, value: EntityFunc) {

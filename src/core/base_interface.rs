@@ -37,10 +37,10 @@ pub(crate) trait IBaseInterface {
     }
 
     // 获取核心接口
-    fn get_core<T: ICore>(&self) -> Option<T>;
+    fn get_core<T: ICore>(&self) -> &T;
 
     // 获取创建器
-    fn get_interface_creator<T: IBaseInterfaceCreator>(&self) -> Option<T>;
+    fn get_interface_creator<T: IBaseInterfaceCreator>(&self) -> &T;
 
     fn set_core<T: ICore>(&mut self, value: T);
 
@@ -48,8 +48,8 @@ pub(crate) trait IBaseInterface {
 }
 
 struct IBase {
-    core_: Some(dyn ICore),
-    creator_: Some(dyn IBaseInterfaceCreator),
+    core_: dyn ICore,
+    creator_: dyn IBaseInterfaceCreator,
 }
 
 impl IBaseInterface for IBase {
@@ -73,12 +73,12 @@ impl IBaseInterface for IBase {
         unimplemented!()
     }
 
-    fn get_core<T: ICore>(&self) -> Option<T> {
-        self.core_
+    fn get_core<T: ICore>(&self) -> &T {
+        &self.core_
     }
 
-    fn get_interface_creator<T: IBaseInterfaceCreator>(&self) -> Option<T> {
-        self.creator_
+    fn get_interface_creator<T: IBaseInterfaceCreator>(&self) -> &T {
+        &self.creator_
     }
 
     fn set_core<T: ICore>(&mut self, value: T) {

@@ -173,9 +173,32 @@ impl BaseLoginInfo {
         );
     }
 
-    fn add_callback_link(&self, call_back: Some(BaseLogicCallBack)) {
+    fn add_callback_link(&mut self, call_back: Some(BaseLogicCallBack)) -> usize {
         let mut count : usize = 0;
-        if let mut temp = call_back {
-        };
+        let mut temp: Some(BaseLogicCallBack) = call_back;
+        let mut count = 0;
+        while temp != None {
+            let temp_callback: BaseLogicCallBack= temp.unwrap();
+            temp = temp_callback.next_;
+            count += 1;
+        }
+
+        self.call_back_infos_.resize_with(count, Default::default());
+        let mut index = count - 1;
+
+        temp = call_back;
+        while temp != None {
+            let mut data = &self.call_back_infos_[index];
+            let temp_callback: BaseLogicCallBack = temp.unwrap();
+            data.set_name(temp_callback.name_);
+            data.set_hash(get_hash_value_case(temp_callback.name_.as_ref()));
+            data.set_mid_func(temp_callback.mid_func_);
+            data.set_return_table(temp_callback.return_table_);
+
+            index -= 1;
+            temp = temp_callback.next_;
+        }
+
+        count
     }
 }
