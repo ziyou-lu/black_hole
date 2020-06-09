@@ -11,37 +11,20 @@
 use super::base_logic::IBaseLogic;
 
 #[derive(Debug)]
-pub struct BaseLogicCallBack {
+pub struct IBaseLogicCallBack {
     pub name_: String,
     pub mid_func_: fn(),
     pub return_table_: bool,
-    pub next_: BaseLogicCallBack,
+    pub next_: *IBaseLogicCallBack,
 }
 
-pub(crate) trait IBaseLogicCreator {
-    // 返回空间名字
-    fn get_space(&self) -> String;
-    // 返回名称
-    fn get_name(&self) -> String;
-    // 创建
-    fn create<T: IBaseLogic>(&self) -> Option<T>;
-    // 删除
-    fn destroy<T: IBaseLogic>(&self, logic: &T);
-    // 获得下一个
-    fn get_next<T: IBaseLogicCreator>(&self) -> Option<T>;
-    // 获取方法链表
-    fn get_callback_link(&self) -> Option<BaseLogicCallBack>;
-
-    // 设置方法链表
-    fn set_callback_link(&mut self, value: BaseLogicCallBack);
+#[derive(Debug)]
+pub(crate) struct IBaseLogicCreator {
+    next_: *IBaseLogicCreator,
+    call_back_: *IBaseLogicCallBack,
 }
 
-struct BaseLogicCreator {
-    next_: BaseLogicCreator,
-    call_back_: BaseLogicCallBack,
-}
-
-impl IBaseLogicCreator for BaseLogicCreator {
+impl IBaseLogicCreator {
     fn get_space(&self) -> String {
         unimplemented!()
     }
@@ -50,15 +33,15 @@ impl IBaseLogicCreator for BaseLogicCreator {
         unimplemented!()
     }
 
-    fn create<T: IBaseLogic>(&self) -> Option<T> {
+    fn create(&self) -> Box<IBaseLogic> {
         unimplemented!()
     }
 
-    fn destroy<T: IBaseLogic>(&self, logic: &T) {
+    fn destroy(&self, logic: &IBaseLogic) {
         unimplemented!()
     }
 
-    fn get_next<T: IBaseLogicCreator>(&self) -> Option<T> {
+    fn get_next<T: IBaseLogicCreator>(&self) -> const* IBaseLogicCallBack {
         self.next_
     }
 
@@ -69,4 +52,5 @@ impl IBaseLogicCreator for BaseLogicCreator {
     fn set_callback_link(&mut self, value: BaseLogicCallBack) {
         self.call_back_ = value;
     }
+
 }

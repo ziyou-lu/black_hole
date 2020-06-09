@@ -15,9 +15,9 @@ use crate::share::obj_id::ObjId;
 
 #[derive(Debug)]
 pub(crate) struct IBaseEntity {
-    core_: A,
-    entity_info_: B,
-    entity_script_: C,
+    core_: ICore,
+    entity_info_: IEntityInfo,
+    entity_script_: IEntityScript,
     deleted_: bool,
     can_del_by_script_: bool,
     entity_id_: ObjId,
