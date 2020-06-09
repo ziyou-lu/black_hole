@@ -9,11 +9,11 @@
 //  History:
 *************************************************/
 use super::base_logic_creator::IBaseLogicCreator;
-use crate::share::any_list::IArrayList;
-use crate::runtime::inlines;
-use std::borrow::Borrow;
-use crate::runtime::inlines::get_hash_value_case;
 use crate::core::base_logic_creator::BaseLogicCallBack;
+use crate::runtime::inlines;
+use crate::runtime::inlines::get_hash_value_case;
+use crate::share::any_list::IArrayList;
+use std::borrow::Borrow;
 
 // 逻辑方法信息
 #[derive(Debug)]
@@ -69,7 +69,7 @@ impl CallBackInfo {
 pub(crate) trait IBaseLogicInfo {
     // 获得创建起
     fn get_creator<T: IBaseLogicCreator>(&self) -> Option<T>;
-    
+
     // 返回名字空间
     fn get_space_name(&self) -> String;
 
@@ -140,7 +140,9 @@ impl BaseLoginInfo {
         let hash = inlines::get_hash_value_case(name);
 
         for callback in self.call_back_infos_ {
-            if callback.get_hash() == hash && String::from(callback.name_).eq(String::from(name).borrow()) {
+            if callback.get_hash() == hash
+                && String::from(callback.name_).eq(String::from(name).borrow())
+            {
                 index = i;
                 true
             }
@@ -148,8 +150,7 @@ impl BaseLoginInfo {
         false
     }
 
-    fn set_creator<T: IBaseLogicCreator>(&self, value: T)
-    {
+    fn set_creator<T: IBaseLogicCreator>(&self, value: T) {
         self.creator_ = value;
     }
 
@@ -162,23 +163,20 @@ impl BaseLoginInfo {
     }
 
     fn add_callback_info(&mut self, name: &str, mid_func: fn(), ret_table: bool) {
-
-        self.call_back_infos_.push(
-            CallBackInfo{
-                name_: name,
-                hash_: get_hash_value_case(name),
-                mid_func_: mid_func,
-                return_table_: ret_table
-            }
-        );
+        self.call_back_infos_.push(CallBackInfo {
+            name_: name,
+            hash_: get_hash_value_case(name),
+            mid_func_: mid_func,
+            return_table_: ret_table,
+        });
     }
 
     fn add_callback_link(&mut self, call_back: Some(BaseLogicCallBack)) -> usize {
-        let mut count : usize = 0;
+        let mut count: usize = 0;
         let mut temp: Some(BaseLogicCallBack) = call_back;
         let mut count = 0;
         while temp != None {
-            let temp_callback: BaseLogicCallBack= temp.unwrap();
+            let temp_callback: BaseLogicCallBack = temp.unwrap();
             temp = temp_callback.next_;
             count += 1;
         }

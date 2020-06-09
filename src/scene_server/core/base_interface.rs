@@ -8,11 +8,10 @@
 //  Others:
 //  History:
 *************************************************/
-use super::core::ICore;
 use super::base_interface_creator::IBaseInterfaceCreator;
+use super::core::ICore;
 
 pub(crate) trait IBaseInterface {
-
     // 初始化
     fn init(&self) -> bool;
     // 关闭
@@ -35,24 +34,22 @@ pub(crate) trait IBaseInterface {
     fn get_memory_usage(&self) -> u32 {
         return 0;
     }
-
-    // 获取核心接口
-    fn get_core<T: ICore>(&self) -> &T;
-
-    // 获取创建器
-    fn get_interface_creator<T: IBaseInterfaceCreator>(&self) -> &T;
-
-    fn set_core<T: ICore>(&mut self, value: T);
-
-    fn set_interface_creator<T: IBaseInterfaceCreator>(&mut self, value: T);
 }
 
-struct IBase {
-    core_: dyn ICore,
-    creator_: dyn IBaseInterfaceCreator,
+struct BaseInterface<A, B>
+where
+    A: ICore,
+    B: IBaseInterfaceCreator<Self>,
+{
+    pub core_: A,
+    pub creator_: B,
 }
 
-impl IBaseInterface for IBase {
+impl<A, B> IBaseInterface for BaseInterface<A, B>
+where
+    A: ICore,
+    B: IBaseInterfaceCreator<Self>,
+{
     fn init(&self) -> bool {
         unimplemented!()
     }
@@ -72,23 +69,4 @@ impl IBaseInterface for IBase {
     fn release(&self) {
         unimplemented!()
     }
-
-    fn get_core<T: ICore>(&self) -> &T {
-        &self.core_
-    }
-
-    fn get_interface_creator<T: IBaseInterfaceCreator>(&self) -> &T {
-        &self.creator_
-    }
-
-    fn set_core<T: ICore>(&mut self, value: T) {
-        self.core_ = value;
-    }
-
-    fn set_interface_creator<T: IBaseInterfaceCreator>(&mut self, value: T) {
-        self.creator_ = value;
-    }
 }
-
-
-

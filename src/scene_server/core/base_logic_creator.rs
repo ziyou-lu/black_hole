@@ -15,7 +15,7 @@ pub struct BaseLogicCallBack {
     pub name_: String,
     pub mid_func_: fn(),
     pub return_table_: bool,
-    pub next_: Some(BaseLogicCallBack),
+    pub next_: BaseLogicCallBack,
 }
 
 pub(crate) trait IBaseLogicCreator {
@@ -34,13 +34,11 @@ pub(crate) trait IBaseLogicCreator {
 
     // 设置方法链表
     fn set_callback_link(&mut self, value: BaseLogicCallBack);
-
-
 }
 
 struct BaseLogicCreator {
-    next_: Some(dyn IBaseLogicCreator),
-    call_back_: Some(BaseLogicCallBack),
+    next_: BaseLogicCreator,
+    call_back_: BaseLogicCallBack,
 }
 
 impl IBaseLogicCreator for BaseLogicCreator {
