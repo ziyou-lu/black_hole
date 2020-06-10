@@ -79,19 +79,19 @@ impl ICore {
         unimplemented!()
     }
 
-    fn get_interface<T: IBaseInterface>(&self, name: &str) -> Option<T> {
+    fn get_interface(&self, name: &str) -> Box<IBaseInterface> {
         unimplemented!()
     }
 
-    fn get_interface_same_space<T: IBaseInterface>(&self, p_bi: &T, name: &str) {
+    fn get_interface_same_space(&self, p_bi: Box<IBaseInterface>, name: &str) {
         unimplemented!()
     }
 
-    fn release_interface<T: IBaseInterface>(&self, bi: &T) {
+    fn release_interface(&self, p_bi: Box<IBaseInterface>) {
         unimplemented!()
     }
 
-    fn get_entity_info<T: IEntityInfo>(&self, name: &str) -> Option<T> {
+    fn get_entity_info(&self, name: &str) -> Box<IEntityInfo> {
         unimplemented!()
     }
 
@@ -103,7 +103,7 @@ impl ICore {
         unimplemented!()
     }
 
-    fn get_all_entity<T: IArrayList>(&self, result: &mut T) -> u32 {
+    fn get_all_entity(&self, result: &mut IArrayList) -> u32 {
         unimplemented!()
     }
 
@@ -111,7 +111,7 @@ impl ICore {
         unimplemented!()
     }
 
-    fn lookup_entity_more<T: IArrayList>(&self, name: &str, result: &mut T) -> u32 {
+    fn lookup_entity_more(&self, name: &str, result: &mut IArrayList) -> u32 {
         unimplemented!()
     }
 
@@ -128,7 +128,7 @@ impl ICore {
         entity: &IBaseEntity,
         name: &str,
         args: &U,
-    ) -> *const dyn IBaseEntity {
+    ) ->Box<IBaseEntity> {
         unimplemented!()
     }
 
@@ -136,33 +136,33 @@ impl ICore {
         unimplemented!()
     }
 
-    fn set_can_del_by_script<T: IBaseEntity>(&self, entity: &T, value: bool) {
+    fn set_can_del_by_script(&self, entity: Box<IBaseEntity>, value: bool) {
         unimplemented!()
     }
 
-    fn get_property<T: IBaseEntity, U: IAny>(&self, entity: &T, prop: &str, value: &mut U) -> bool {
+    fn get_property(&self, entity: Box<IBaseEntity>, prop: &str, value: &mut IAny) -> bool {
         unimplemented!()
     }
 
-    fn set_property<T: IBaseEntity, U: IAny>(&self, entity: &T, prop: &str, value: &U) -> bool {
+    fn set_property(&self, entity: Box<IBaseEntity>, prop: &str, value: &IAny) -> bool {
         unimplemented!()
     }
 
-    fn invoke_method<T: IBaseEntity, U: IArrayList>(
+    fn invoke_method(
         &self,
-        entity: &T,
+        entity: Box<IBaseEntity>,
         func: &str,
-        args: &U,
-        res: &U,
+        args: &IArrayList,
+        res: &IArrayList,
     ) -> bool {
         unimplemented!()
     }
 
-    fn run_function<T: IArrayList>(&self, func: &str, args: &T, res: &T) -> bool {
+    fn run_function(&self, func: &str, args: &IArrayList, res: &IArrayList) -> bool {
         unimplemented!()
     }
 
-    fn exec_async_proc<T: IArrayList>(&self, script: &str, func: &str, args: &T, res: &T) -> bool {
+    fn exec_async_proc(&self, script: &str, func: &str, args: &IArrayList, res: &IArrayList) -> bool {
         unimplemented!()
     }
 
@@ -174,37 +174,37 @@ impl ICore {
         unimplemented!()
     }
 
-    fn gen_async_event<T: IArrayList>(&self, id: &ObjId, event: &str, args: &T) -> u32 {
+    fn gen_async_event(&self, id: &ObjId, event: &str, args: &IArrayList) -> u32 {
         unimplemented!()
     }
 
-    fn bind_script<T: IBaseEntity>(&self, entity: &T, script: &str) -> bool {
+    fn bind_script(&self, entity: Box<IBaseEntity>, script: &str) -> bool {
         unimplemented!()
     }
 
-    fn bind_logic<T: IBaseEntity, U: IArrayList>(&self, entity: &T, logic: &str, args: &U) -> bool {
+    fn bind_logic(&self, entity: Box<IBaseEntity>, logic: &str, args: &IArrayList) -> bool {
         unimplemented!()
     }
 
-    fn find_callback<T: IBaseEntity>(&self, entity: &T, event: &str) -> bool {
+    fn find_callback(&self, entity: Box<IBaseEntity>, event: &str) -> bool {
         unimplemented!()
     }
 
-    fn exec_callback<T: IBaseEntity, U: IArrayList>(
+    fn exec_callback(
         &self,
-        entity: &T,
+        entity: Box<IBaseEntity>,
         event: &str,
-        args: &U,
-        res: &U,
+        args: &IArrayList,
+        res: &IArrayList,
     ) -> bool {
         unimplemented!()
     }
 
-    fn add_execute<T: IBaseEntity>(&self, entity: &T) -> bool {
+    fn add_execute(&self, entity: Box<IBaseEntity>) -> bool {
         unimplemented!()
     }
 
-    fn remove_execute<T: IBaseEntity>(&self, entity: &T) -> bool {
+    fn remove_execute(&self, entity: &Box<IBaseEntity>) -> bool {
         unimplemented!()
     }
 
@@ -216,11 +216,11 @@ impl ICore {
         unimplemented!()
     }
 
-    fn set_global_value<T: IAny>(&self, name: &str, value: &T) -> bool {
+    fn set_global_value(&self, name: &str, value: &IAny) -> bool {
         unimplemented!()
     }
 
-    fn get_global_value<T: IAny>(&self, name: &str) -> Option<T> {
+    fn get_global_value(&self, name: &str) -> IAny {
         unimplemented!()
     }
 
@@ -228,7 +228,7 @@ impl ICore {
         unimplemented!()
     }
 
-    fn get_global_list<T: IArrayList>(&self, result: &mut T) -> u32 {
+    fn get_global_list(&self, result: &mut IArrayList) -> u32 {
         unimplemented!()
     }
 

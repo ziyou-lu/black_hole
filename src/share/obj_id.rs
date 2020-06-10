@@ -9,7 +9,7 @@
 //  History:
 *************************************************/
 use std::ops::{Deref};
-use crate::core::object::IObject;
+use crate::scene_server::core::object::IObject;
 
 #[derive(Debug)]
 pub(crate) struct ObjId {
@@ -30,11 +30,11 @@ impl ObjId {
 #[derive(Debug)]
 struct ObjIdDbg {
     obj_: ObjId,
-    obj_ptr_: * dyn IObject,
+    obj_ptr_: Box<IObject>,
 }
 
 impl ObjIdDbg {
-    fn new(id: ObjId, obj_ptr: * dyn IObject) -> ObjIdDbg {
+    fn new(id: ObjId, obj_ptr: Box<IObject>) -> ObjIdDbg {
         ObjIdDbg{obj_: id, obj_ptr_: obj_ptr}
     }
 }

@@ -1,21 +1,15 @@
+#[derive(Debug)]
+pub(crate) struct IAny {
+    }
 
-pub(crate) trait IAny {
-    fn get_type(&self) -> i32;
+impl IAny {
+    fn get_type(&self) -> i32{}
+    fn is_real(&self) -> bool{}
 
-    fn is_real(&self) -> bool;
+    fn is_number(&self) -> bool{}
 
-    fn is_number(&self) -> bool;
-
-    fn assign(&self, src: &Self);
-}
-
-trait IAnyOp {
-    fn get_value<T>(&self) -> Option<T>;
-
-    fn set_value<T>(&self, value: T);
-}
-
-impl IAnyOp for dyn IAny {
+    fn assign(&self, src: &Self){}
+ 
     fn get_value<T>(&self) -> Option<T> {
         unimplemented!()
     }
@@ -23,4 +17,5 @@ impl IAnyOp for dyn IAny {
     fn set_value<T>(&self, value: T) {
         unimplemented!()
     }
+
 }
