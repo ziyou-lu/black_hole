@@ -8,12 +8,12 @@
 //  Others:
 //  History
 *************************************************/
-use crate::core::gravity::IGravity;
-use crate::share::obj_id::ObjId;
+use super::gravity::IGravityd;
 use crate::share::any_list::IArrayList;
+use crate::share::obj_id::ObjId;
 
 /***
-    ************** 函数定义
+ ************** 函数定义
  */
 pub type LogicClassFunc = fn(*const dyn IGravity, i32, &str) -> i32;
 pub type LogicEventFunc = fn(*const dyn IGravity, &ObjId, &ObjId, &dyn IArrayList);

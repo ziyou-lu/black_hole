@@ -15,13 +15,13 @@ pub struct IBaseLogicCallBack {
     pub name_: String,
     pub mid_func_: fn(),
     pub return_table_: bool,
-    pub next_: *IBaseLogicCallBack,
+    pub next_: Box<IBaseLogicCallBack>,
 }
 
 #[derive(Debug)]
 pub(crate) struct IBaseLogicCreator {
-    next_: *IBaseLogicCreator,
-    call_back_: *IBaseLogicCallBack,
+    next_: Box<IBaseLogicCreator>,
+    call_back_: Box<IBaseLogicCallBack>,
 }
 
 impl IBaseLogicCreator {
@@ -41,16 +41,15 @@ impl IBaseLogicCreator {
         unimplemented!()
     }
 
-    fn get_next<T: IBaseLogicCreator>(&self) -> const* IBaseLogicCallBack {
+    fn get_next(&self) -> Box<IBaseLogicCreator> {
         self.next_
     }
 
-    fn get_callback_link(&self) -> Option<BaseLogicCallBack> {
+    fn get_callback_link(&self) -> Box<IBaseLogicCreator> {
         self.call_back_
     }
 
-    fn set_callback_link(&mut self, value: BaseLogicCallBack) {
+    fn set_callback_link(&mut self, value: &IBaseLogicCallBack) {
         self.call_back_ = value;
     }
-
 }

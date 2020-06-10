@@ -1,5 +1,5 @@
 mod common_mod;
-mod core;
+mod scene_server;
 mod share;
 mod runtime;
 #[macro_use]

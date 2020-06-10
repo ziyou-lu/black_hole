@@ -13,63 +13,67 @@
 
 use crate::share::obj_id::ObjId;
 use crate::share::any_list::IArrayList;
-use crate::core::record::IRecord;
+use super::record::IRecord;
 
-pub(crate) trait IObject {
+#[derive(Debug)]
+pub(crate) struct IObject {
 
-    //////////////////////////////////////////////////////////////////////////
+}
+
+impl IObject {
+	//////////////////////////////////////////////////////////////////////////
     // 对象配置
     
     // 获取对象类型
-    fn get_obj_type(&self) -> i32;
+    fn get_obj_type(&self) -> i32{}
 
     // 获取对象号
-    fn get_object_id(&self) -> Option<ObjId>;
+    fn get_object_id(&self) -> ObjId{}
 
     // 获取对象脚本名
-    fn get_script(&self) -> String;
+    fn get_script(&self) -> String{}
 
     // 获取对象配置名
-    fn get_config(&self) -> i64;
+    fn get_config(&self) -> i64{}
 
     // 获取名字
-    fn get_name(&self) -> String;
+    fn get_name(&self) -> String{}
 
     // 获取组号
-    fn get_group_id(&self) -> i32;
+    fn get_group_id(&self) -> i32{}
 
     //////////////////////////////////////////////////////////////////////////
     // 对象层次结构
     
     // 获取对象在容器中的位置
-    fn get_index_in_container(&self) -> i32;
+    fn get_index_in_container(&self) -> i32{}
 
     // 获取父对象
-    fn get_parent_obj<T: IObject>(&self) -> Option<T>;
+    fn get_parent_obj(&self) -> Box<IObject>{}
 
     // 返回容器容量
-    fn get_container_capacity(&self) -> i32;
+    fn get_container_capacity(&self) -> i32{}
 
     // 获取第一个子对象
-    fn get_first_child_obj(&self, it: &u32) -> Option<ObjId>;
+    fn get_first_child_obj(&self, it: &u32) -> ObjId{}
 
     // 获取下一个子对象
-    fn get_next_child_obj(&self, it: &u32) -> Option<ObjId>;
+    fn get_next_child_obj(&self, it: &u32) -> ObjId{}
 
     // 返回子对象数量
-    fn get_child_obj_number(&self) -> i32;
+    fn get_child_obj_number(&self) -> i32{}
 
     // 获得指定位置子对象
-    fn get_child_obj_by_index<T: IObject>(&self, index: i32) -> Option<T>;
+    fn get_child_obj_by_index(&self, index: i32) -> Box<IObject>{}
 
     // 根据名字获得子对象
-    fn get_child_obj_by_name<T: IObject>(&self, name: &str) -> Option<T>;
+    fn get_child_obj_by_name(&self, name: &str) -> Box<IObject>{}
 
     // 获得子对象列表
-    fn get_child_obj_id_list<T: IArrayList>(&self, class_type: i32, result: &mut T);
+    fn get_child_obj_id_list(&self, class_type: i32, result: &mut IArrayList){}
 
     // 查找子对象
-    fn search_child_obj_by_name(&self, name: &str, class_type: i32) -> Option<ObjId>;
+    fn search_child_obj_by_name(&self, name: &str, class_type: i32) -> ObjId {}
 
     // 查找多个子对象
     fn search_more_child_obj_by_name<T: IArrayList>(&self, name: &str, class_type: i32, result: &mut T);
@@ -242,7 +246,6 @@ pub(crate) trait IObject {
 	fn remove_volatile(&self, name: &str) -> bool;
 	/// @brief 获得临时数据类型
 	fn get_volatile_type(&self, name: &str) -> i32;
-
 }
 
 trait IObjectAttr {

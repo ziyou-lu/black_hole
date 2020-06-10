@@ -8,15 +8,14 @@
 //  Others:
 //  History:
 *************************************************/
+use super::base_entity::IBaseEntity;
+use super::base_logic_info::IBaseLogicInfo;
 use crate::share::any_list::IArrayList;
-use crate::core::base_entity::IBaseEntity;
-use crate::core::base_logic_info::IBaseLogicInfo;
 
 #[derive(Debug)]
 pub(crate) struct IBaseLogic {
     entity_: IBaseEntity,
     logic_info_: IBaseLogicInfo,
-   
 }
 
 impl IBaseLogic {
@@ -28,12 +27,12 @@ impl IBaseLogic {
     fn shut(&self) -> bool {
         true
     }
-    
+
     fn release(&self) {
         self.logic_info_.get_creator().destroy(self);
     }
 
-    fn get_entity<T: IBaseEntity>(&self) -> Box<IBaseEntity> {
+    fn get_entity(&self) -> Box<IBaseEntity> {
         Box::new(self.entity_)
     }
 
@@ -41,12 +40,11 @@ impl IBaseLogic {
         Box::new(self.logic_info_)
     }
 
-    fn set_entity(&mut self, value: IBaseEntity) {
+    fn set_entity(&mut self, value: Box<IBaseEntity>) {
         self.entity_ = value;
     }
 
-    fn set_logic_info(&mut self, value: IBaseLogicInfo) {
+    fn set_logic_info(&mut self, value: Box<IBaseLogicInfo>) {
         self.logic_info_ = value;
-    }  
+    }
 }
-

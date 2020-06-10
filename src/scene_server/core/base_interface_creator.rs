@@ -8,32 +8,30 @@
 //  Others:
 //  History:
 *************************************************/
-use crate::core::base_interface::IBaseInterface;
+use super::base_interface::IBaseInterface;
 
 #[derive(Debug)]
-pub(crate) struct IBaseInterfaceCreator
-{
-    next_: *IBaseInterfaceCreator,
+pub(crate) struct IBaseInterfaceCreator {
+    next_: Box<IBaseInterfaceCreator>,
 }
 
-impl BaseInterfaceCreator {
-
+impl IBaseInterfaceCreator {
     // 返回名字空间
     fn get_space(&self) -> String {
-        ""
+        String::from("")
     }
 
     // 返回名称
-    fn get_name(&self) -> String;
+    fn get_name(&self) -> String {
+        String::from("")
+    }
 
     // 创建
-    fn create(&self) -> Box<IBaseInterface>;
+    fn create(&self) -> Box<IBaseInterface> {}
 
     // 删除
-    fn destroy(&self, interface: T);
+    fn destroy(&self, interface: IBaseInterface) {}
 
     // 获得下一个
-    fn get_next(&self) -> *IBaseInterfaceCreator;
-
+    fn get_next(&self) -> Box<IBaseInterfaceCreator> {}
 }
-

@@ -8,9 +8,9 @@
 //  Others:
 //  History:
 *************************************************/
-use crate::core::core::ICore;
-use crate::core::entity_info::IEntityInfo;
-use crate::core::entity_script::IEntityScript;
+use super::core::ICore;
+use super::entity_info::IEntityInfo;
+use super::entity_script::IEntityScript;
 use crate::share::obj_id::ObjId;
 
 #[derive(Debug)]
@@ -23,7 +23,7 @@ pub(crate) struct IBaseEntity {
     entity_id_: ObjId,
 }
 
-impl BaseEntity {
+impl IBaseEntity {
     fn init(&self) {
         unimplemented!()
     }

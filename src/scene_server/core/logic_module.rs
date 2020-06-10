@@ -9,14 +9,16 @@
 //  History:
 *************************************************/
 
-use crate::core::gravity::IGravity;
+use super::gravity::IGravity;
+#[derive(Debug)]
+pub(crate) struct ILogicModule {}
 
-pub(crate) trait ILogicModule {
-    fn init<T: IGravity>(&self, gravity: &T) -> bool;
+impl ILogicModule {
+    fn init(&self, gravity: Box<IGravity>) -> bool {}
 
-    fn shut<T: IGravity>(&self, gravity: &T) -> bool;
+    fn shut(&self, gravity: Box<IGravity>) -> bool {}
 
-    fn before_launch<T: IGravity>(&self, gravity: &T) -> bool {
+    fn before_launch(&self, gravity: Box<IGravity>) -> bool {
         true
     }
 }

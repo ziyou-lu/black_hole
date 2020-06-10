@@ -8,9 +8,9 @@
 //  Others:
 //  History:
 *************************************************/
-use crate::core::base_entity::IBaseEntity;
-use crate::core::base_interface::IBaseInterface;
-use crate::core::entity_info::IEntityInfo;
+use super::base_entity::IBaseEntity;
+use super::base_interface::IBaseInterface;
+use super::entity_info::IEntityInfo;
 use crate::share::any::IAny;
 use crate::share::any_list::IArrayList;
 use crate::share::obj_id::ObjId;
