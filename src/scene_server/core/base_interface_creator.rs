@@ -33,5 +33,7 @@ impl IBaseInterfaceCreator {
     fn destroy(&self, interface: IBaseInterface) {}
 
     // 获得下一个
-    fn get_next(&self) -> Box<IBaseInterfaceCreator> {}
+    fn get_next(&self) -> Box<IBaseInterfaceCreator> {
+        self.next_
+    }
 }

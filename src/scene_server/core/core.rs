@@ -127,12 +127,12 @@ impl ICore {
         &self,
         entity: &IBaseEntity,
         name: &str,
-        args: &U,
-    ) ->Box<IBaseEntity> {
+        args: &IArrayList,
+    ) -> Box<IBaseEntity> {
         unimplemented!()
     }
 
-    fn delete_entity(&self, id: &ObjId) -> bool {
+    pub fn delete_entity(&self, id: &ObjId) -> bool {
         unimplemented!()
     }
 
@@ -162,7 +162,13 @@ impl ICore {
         unimplemented!()
     }
 
-    fn exec_async_proc(&self, script: &str, func: &str, args: &IArrayList, res: &IArrayList) -> bool {
+    fn exec_async_proc(
+        &self,
+        script: &str,
+        func: &str,
+        args: &IArrayList,
+        res: &IArrayList,
+    ) -> bool {
         unimplemented!()
     }
 

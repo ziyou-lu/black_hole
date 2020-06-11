@@ -12,18 +12,19 @@ use super::base_logic_creator::{IBaseLogicCallBack, IBaseLogicCreator};
 use crate::runtime::inlines;
 use crate::share::any_list::IArrayList;
 use std::borrow::Borrow;
+use std::os::raw::c_void;
 
 // 逻辑方法信息
 #[derive(Debug)]
 pub struct ICallBackInfo {
     name_: String,
     hash_: u32,
-    mid_func_: fn(),
+    mid_func_: *const c_void,
     return_table_: bool,
 }
 
 impl ICallBackInfo {
-    fn get_name(&self) -> Option<String> {
+    fn get_name(&self) -> String {
         self.name_
     }
 

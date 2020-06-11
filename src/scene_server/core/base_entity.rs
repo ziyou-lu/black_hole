@@ -15,7 +15,7 @@ use crate::share::obj_id::ObjId;
 
 #[derive(Debug)]
 pub(crate) struct IBaseEntity {
-    core_: ICore,
+    core_: Box<ICore>,
     entity_info_: IEntityInfo,
     entity_script_: IEntityScript,
     deleted_: bool,
@@ -24,37 +24,67 @@ pub(crate) struct IBaseEntity {
 }
 
 impl IBaseEntity {
-    fn init(&self) {
+    pub fn init(&self) {
         unimplemented!()
     }
 
-    fn shut(&self) {
+    pub fn shut(&self) {
         unimplemented!()
     }
 
-    fn execute(&self, seconds: f32) {}
+    pub fn execute(&self, seconds: f32) {
+        unimplemented!()
+    }
 
-    fn release(&self) {
+    pub fn release(&self) {
         self.core_.delete_entity(&self.entity_id_);
     }
 
-    fn get_memory_usage(&self) -> u32 {
+    pub fn get_memory_usage(&self) -> u32 {
         0
     }
 
-    fn get_deleted(&self) -> bool {
+    pub fn get_core(&self) -> Box<ICore> {
+        self.core_
+    }
+
+    pub fn get_entity_info(&self) -> &IEntityInfo {
+        &self.entity_info_
+    }
+
+    pub fn get_entity_id(&self) -> ObjId {
+        self.entity_id_
+    }
+
+    pub fn get_deleted(&self) -> bool {
         self.deleted_
     }
 
-    fn get_can_del_by_script(&self) -> bool {
+    pub fn get_can_del_by_script(&self) -> bool {
         self.can_del_by_script_
     }
 
-    fn set_deleted(&mut self, value: bool) {
+    pub fn set_deleted(&mut self, value: bool) {
         self.deleted_ = value;
     }
 
-    fn set_can_del_by_script(&mut self, value: bool) {
+    pub fn set_can_del_by_script(&mut self, value: bool) {
         self.can_del_by_script_ = value;
+    }
+
+    pub fn set_core(&mut self, value: Box<ICore>) {
+        self.core_ = value;
+    }
+
+    pub fn set_entity_info(&mut self, value: IEntityInfo) {
+        self.entity_info_ = value;
+    }
+
+    pub fn set_entity_script(&mut self, value: IEntityScript) {
+        self.entity_script_ = value;
+    }
+
+    pub fn set_entity_id(&mut self, value: ObjId) {
+        self.entity_id_ = value;
     }
 }

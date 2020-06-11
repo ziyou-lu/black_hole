@@ -35,11 +35,11 @@ impl IArrayList {
     // 获取内存用量
     fn get_memory_usage(&self) -> u32 {}
 
-    fn add_value<T>(&self, value: T) -> bool {}
+    pub fn add_value<T>(&self, value: T) -> bool {}
 
-    fn set_value<T>(&self, value: T) -> bool {}
+    pub fn set_value<T>(&self, value: T) -> bool {}
 
-    fn get_value<T>(&self) -> Option<T> {}
+    pub fn get_value<T>(&self) -> Option<T> {}
 }
 
 impl Shl for IArrayList {
