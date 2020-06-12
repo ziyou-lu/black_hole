@@ -8,41 +8,24 @@
 //  Others:
 //  History:
 *************************************************/
-use super::base_interface_creator::IBaseInterfaceCreator;
-use super::core::ICore;
 
-#[derive(Debug)]
-pub(crate) struct IBaseInterface {
-    core_: ICore,
-    creator_: IBaseInterfaceCreator,
-}
-
-impl IBaseInterface {
+pub(crate) trait IBaseInterface {
+    fn new() -> Box<Self>;
     // 初始化
-    fn init(&self) -> bool{
-        true
-    }
+    fn init(&self) -> bool;
     // 关闭
-    fn shut(&self) -> bool {
-        true
-    }
-
+    fn shut(&self) -> bool;
     //是否需要每帧运行
-    fn need_exec_per_frame(&self) -> bool {
-        false
-    }
-
+    fn need_exec_per_frame(&self) -> bool;
     // 每帧开始时调用
-    fn exec_frame_begin(&self) {}
+    fn exec_frame_begin(&self);
     // 每帧结束时调用
-    fn exec_frame_end(&self) {}
+    fn exec_frame_end(&self);
 
     // 释放
-    fn release(&self) {}
+    fn release(&self);
 
     // 获得内存占用
-    fn get_memory_usage(&self) -> u32 {
-        0
-    }
+    fn get_memory_usage(&self) -> u32;
 }
 

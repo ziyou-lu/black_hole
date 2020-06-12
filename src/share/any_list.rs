@@ -21,7 +21,7 @@ impl IArrayList {
     fn append(&self, src: &Self, start: u32, count: u32) {}
 
     // 清空
-    fn clear(&self) {}
+    pub fn clear(&self) {}
 
     // 是否为空
     fn is_empty(&self) -> bool {}

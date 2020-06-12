@@ -66,11 +66,11 @@ pub struct IBaseLogicInfo {
 }
 
 impl IBaseLogicInfo {
-    fn get_creator(&self) -> Box<IBaseLogicCreator> {
+    pub fn get_creator(&self) -> Box<IBaseLogicCreator> {
         self.creator_
     }
 
-    fn get_space_name(&self) -> String {
+    fpub n get_space_name(&self) -> String {
         self.space_name_
     }
 

@@ -9,31 +9,40 @@
 //  History:
 *************************************************/
 use super::base_interface::IBaseInterface;
+use std::mem::drop;
 
 #[derive(Debug)]
 pub(crate) struct IBaseInterfaceCreator {
-    next_: Box<IBaseInterfaceCreator>,
+    next_: Option<Box<Self>>,
+    space_name_: String,
+    name_: String,
+
 }
+
 
 impl IBaseInterfaceCreator {
     // 返回名字空间
     fn get_space(&self) -> String {
-        String::from("")
+        self.space_name_
     }
 
     // 返回名称
     fn get_name(&self) -> String {
-        String::from("")
+        self.name_
     }
 
     // 创建
-    fn create(&self) -> Box<IBaseInterface> {}
+    fn create(&self) -> Box<impl IBaseInterface> {
+        IBaseInterface::new()
+    }
 
     // 删除
-    fn destroy(&self, interface: IBaseInterface) {}
+    fn destroy(&self, interface: Box<impl IBaseInterface>) {
+        drop(interface);
+    }
 
     // 获得下一个
-    fn get_next(&self) -> Box<IBaseInterfaceCreator> {
+    fn get_next(&self) -> Option<Box<Self>> {
         self.next_
     }
 }
