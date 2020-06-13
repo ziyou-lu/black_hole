@@ -10,7 +10,6 @@
 *************************************************/
 
 pub(crate) trait IBaseInterface {
-    fn new() -> Box<Self>;
     // 初始化
     fn init(&self) -> bool;
     // 关闭

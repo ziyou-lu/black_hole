@@ -16,7 +16,7 @@ pub(crate) struct IBaseInterfaceCreator {
     next_: Option<Box<Self>>,
     space_name_: String,
     name_: String,
-
+    Ratio: f32,
 }
 
 
@@ -32,7 +32,7 @@ impl IBaseInterfaceCreator {
     }
 
     // 创建
-    fn create(&self) -> Box<impl IBaseInterface> {
+    fn create(&self, t: ) -> Box<impl IBaseInterface> {
         IBaseInterface::new()
     }
 
