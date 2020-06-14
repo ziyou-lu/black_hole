@@ -14,8 +14,8 @@ use crate::share::any_list::IArrayList;
 
 #[derive(Debug)]
 pub(crate) struct IBaseLogic {
-    entity_: IBaseEntity,
-    logic_info_: IBaseLogicInfo,
+    entity_: Option<Box<IBaseEntity>>,
+    logic_info_: Option<Box<IBaseLogicInfo>>,
 }
 
 impl IBaseLogic {
@@ -29,22 +29,28 @@ impl IBaseLogic {
     }
 
     fn release(&self) {
-        self.logic_info_.get_creator().destroy(self);
+        match self.logic_info_ {
+            None => {},
+            Some(IBaseLogicInfo) => {
+                self.logic_info_.unwrap().get_creator().unwrap().destroy(self);
+            },
+        }
+        
     }
 
-    fn get_entity(&self) -> Box<IBaseEntity> {
-        Box::new(self.entity_)
+    fn get_entity(&self) -> Option<Box<IBaseEntity>> {
+        self.entity_
     }
 
-    fn get_logic_info(&self) -> Box<IBaseLogicInfo> {
-        Box::new(self.logic_info_)
+    fn get_logic_info(&self) -> Option<Box<IBaseLogicInfo>> {
+        self.logic_info_
     }
 
-    fn set_entity(&mut self, value: Box<IBaseEntity>) {
+    fn set_entity(&mut self, value: Option<Box<IBaseEntity>>) {
         self.entity_ = value;
     }
 
-    fn set_logic_info(&mut self, value: Box<IBaseLogicInfo>) {
+    fn set_logic_info(&mut self, value: Option<Box<IBaseLogicInfo>>) {
         self.logic_info_ = value;
     }
 }

@@ -11,6 +11,7 @@
 use super::base_entity::IBaseEntity;
 use super::entity_creator::IEntityCreator;
 use crate::share::any_list::*;
+use crate::runtime::inlines;
 use std::os::raw::c_void;
 
 // 实体属性信息
@@ -33,11 +34,11 @@ impl IPropInfo {
         self.type_
     }
     // 获取get方法
-    fn get_get_func(&self) -> fn() -> T {
+    fn get_get_func(&self) -> *const c_void {
         self.get_fn_
     }
     // 获取set方法
-    fn get_set_func(&self) -> fn(T) {
+    fn get_set_func(&self) -> *const c_void {
         self.set_fn_
     }
     // 获取hash
@@ -127,8 +128,8 @@ pub(crate) struct IEntityInfo {
     space_name_: String,
     entity_name_: String,
     parent_: Option<Box<IEntityInfo>>,
-    prop_infos_: Vec<IPropInfo>,
-    func_infos_: Vec<IFuncInfo>,
+    prop_infos_: Vec<Box<IPropInfo>>,
+    func_infos_: Vec<Box<IFuncInfo>>,
 }
 
 impl IEntityInfo {
@@ -191,21 +192,81 @@ impl IEntityInfo {
         self.prop_infos_.len()
     }
 
-    fn 
-
     // 获得属性名字列表
     pub fn get_property_list(&self, result: &mut IArrayList) {
         for prop in self.prop_infos_ {
-            result.add_value(prop.get_name());
+            result.add_str(prop.get_name().as_str());
         }
     }
 
     // 在本类中获得属性信息
-    fn get_property_info(&self, name: &str) -> Box<IPropInfo> {}
+    pub fn get_property_info(&self, name: &str) -> Option<Box<IPropInfo>> {
+        let index: u32 = 0;
+        if !self.find_property_index(name, index) {
+            return None;
+        }
+
+        Some(self.prop_infos_[index as usize])
+    }
+
+    fn find_property_index(&self, name: &str, mut index: u32) -> bool {
+        if name.is_empty() {
+            assert!(false, "property name is empty!");
+        }
+
+        let hash = inlines::get_hash_value_case(name);
+
+        let size = self.prop_infos_.len();
+        for i in 0 .. size {
+            if self.prop_infos_[i].get_hash() == hash {
+                index = 1;
+                return true;
+            }
+        }
+        false
+    }
 
     // 在本类和父类查找属性嘻嘻
-    fn find_property_info(&self, name: &str) -> Box<IPropInfo> {}
+    fn find_property_info(&self, name: &str) -> Option<Box<IPropInfo>> {
+        let mut prop_info = self.get_property_info(name);
+
+        if let Some(temp_prop) = prop_info {
+            let mut entity_info = self.get_parent();
+
+            while let Some(temp_entity) = entity_info {
+                prop_info = temp_entity.get_property_info(name);
+
+                match prop_info {
+                    None => {entity_info = temp_entity.get_parent()},
+                    IPropInfo => {
+                        break;
+                    },
+                }
+            }
+        }
+
+        prop_info
+    }
 
     // 获得本类和父类的属性名字列表
-    fn get_property_all(&self, result: &mut IArrayList) -> u32 {}
+    fn get_property_all(&self, result: &mut IArrayList) -> usize {
+        result.clear();
+
+        self.inner_get_property_list(result);
+
+        let mut entity_info = self.get_parent();
+        while let Some(temp_entity) = entity_info {
+            temp_entity.inner_get_property_list(result);
+            entity_info = temp_entity.get_parent();
+        }
+
+        result.get_count()
+    }
+
+    fn inner_get_property_list(&self, result: &mut IArrayList) {
+        let size = self.prop_infos_.len();
+        for i in 0 .. size {
+            result.add_str(self.prop_infos_[i].get_name().as_str());
+        }
+    }
 }

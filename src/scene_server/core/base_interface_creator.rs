@@ -31,11 +31,6 @@ impl IBaseInterfaceCreator {
         self.name_
     }
 
-    // 创建
-    fn create(&self, t: ) -> Box<impl IBaseInterface> {
-        IBaseInterface::new()
-    }
-
     // 删除
     fn destroy(&self, interface: Box<impl IBaseInterface>) {
         drop(interface);

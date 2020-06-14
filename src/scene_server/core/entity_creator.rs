@@ -16,7 +16,7 @@ struct EntityProp {
     type_: i32,
     get_func_: fn(),
     set_func_: fn(),
-    next_: Box<EntityProp>,
+    next_: Option<Box<EntityProp>>,
 }
 
 #[derive(Debug)]
@@ -24,14 +24,14 @@ struct EntityFunc {
     name_: String,
     mid_func_: fn(),
     return_table_: bool,
-    next_: Box<EntityFunc>,
+    next_: Option<Box<EntityFunc>>,
 }
 
 #[derive(Debug)]
 pub(crate) struct IEntityCreator {
     next_: Box<IEntityCreator>,
     property_: Box<EntityProp>,
-    method_: Box<EntityFunc>,
+    method_: Option<Box<EntityFunc>>,
 }
 
 impl IEntityCreator {
@@ -68,15 +68,15 @@ impl IEntityCreator {
         &self.property_
     }
 
-    fn set_property_link(&mut self, value: EntityProp) {
+    fn set_property_link(&mut self, value: Box<EntityProp>) {
         self.property_ = value;
     }
 
-    fn get_method_link(&self) -> &EntityFunc {
-        &self.method_
+    fn get_method_link(&self) -> Option<Box<EntityFunc>> {
+        self.method_
     }
 
-    fn set_method_link(&mut self, value: EntityFunc) {
+    fn set_method_link(&mut self, value: Option<Box<EntityFunc>>) {
         self.method_ = value;
     }
 }

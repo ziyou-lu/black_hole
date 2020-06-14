@@ -9,11 +9,12 @@
 //  History:
 *************************************************/
 use super::base_logic::IBaseLogic;
+use std::os::raw::c_void;
 
 #[derive(Debug)]
 pub struct IBaseLogicCallBack {
     pub name_: String,
-    pub mid_func_: fn(),
+    pub mid_func_: *const c_void,
     pub return_table_: bool,
     pub next_: Option<Box<IBaseLogicCallBack>>,
 }
@@ -25,31 +26,31 @@ pub(crate) struct IBaseLogicCreator {
 }
 
 impl IBaseLogicCreator {
-    fn get_space(&self) -> String {
+    pub fn get_space(&self) -> String {
         unimplemented!()
     }
 
-    fn get_name(&self) -> String {
+    pub fn get_name(&self) -> String {
         unimplemented!()
     }
 
-    fn create(&self) -> Box<IBaseLogic> {
+    pub fn create(&self) -> Box<IBaseLogic> {
         unimplemented!()
     }
 
-    fn destroy(&self, logic: &IBaseLogic) {
+    pub fn destroy(&self, logic: &IBaseLogic) {
         unimplemented!()
     }
 
-    fn get_next(&self) -> Option<Box<IBaseLogicCreator>> {
+    pub fn get_next(&self) -> Option<Box<IBaseLogicCreator>> {
         self.next_
     }
 
-    fn get_callback_link(&self) -> Option<Box<IBaseLogicCallBack>> {
+    pub fn get_callback_link(&self) -> Option<Box<IBaseLogicCallBack>> {
         self.call_back_
     }
 
-    fn set_callback_link(&mut self, value: Option<Box<IBaseLogicCallBack>>) {
+    pub fn set_callback_link(&mut self, value: Option<Box<IBaseLogicCallBack>>) {
         self.call_back_ = value;
     }
 }
