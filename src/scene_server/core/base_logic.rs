@@ -11,6 +11,7 @@
 use super::base_entity::IBaseEntity;
 use super::base_logic_info::IBaseLogicInfo;
 use crate::share::any_list::IArrayList;
+use std::borrow::Borrow;
 
 #[derive(Debug)]
 pub(crate) struct IBaseLogic {
@@ -28,21 +29,21 @@ impl IBaseLogic {
         true
     }
 
-    fn release(&self) {
+    fn release(self) {
         match self.logic_info_ {
             None => {},
             Some(IBaseLogicInfo) => {
-                self.logic_info_.unwrap().get_creator().unwrap().destroy(self);
+                self.logic_info_.unwrap().get_creator().unwrap().destroy(self.borrow());
             },
         }
         
     }
 
-    fn get_entity(&self) -> Option<Box<IBaseEntity>> {
+    fn get_entity(self) -> Option<Box<IBaseEntity>> {
         self.entity_
     }
 
-    fn get_logic_info(&self) -> Option<Box<IBaseLogicInfo>> {
+    fn get_logic_info(self) -> Option<Box<IBaseLogicInfo>> {
         self.logic_info_
     }
 

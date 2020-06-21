@@ -42,11 +42,11 @@ impl IBaseLogicCreator {
         unimplemented!()
     }
 
-    pub fn get_next(&self) -> Option<Box<IBaseLogicCreator>> {
+    pub fn get_next(self) -> Option<Box<IBaseLogicCreator>> {
         self.next_
     }
 
-    pub fn get_callback_link(&self) -> Option<Box<IBaseLogicCallBack>> {
+    pub fn get_callback_link(self) -> Option<Box<IBaseLogicCallBack>> {
         self.call_back_
     }
 

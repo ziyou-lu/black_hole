@@ -26,7 +26,7 @@ pub(crate) struct IPropInfo {
 
 impl IPropInfo {
     // 获取名字
-    fn get_name(&self) -> String {
+    fn get_name(self) -> String {
         self.name_
     }
     // 获取类型
@@ -46,23 +46,23 @@ impl IPropInfo {
         self.hash_
     }
     // 设置名字
-    fn set_name(&self, value: String) {
+    fn set_name(&mut self, value: String) {
         self.name_ = value;
     }
 
-    fn set_hash(&self, value: u32) {
+    fn set_hash(&mut self, value: u32) {
         self.hash_ = value;
     }
 
-    fn set_type(&self, value: i32) {
+    fn set_type(&mut self, value: i32) {
         self.type_ = value;
     }
 
-    fn set_getfn(&self, value: *const c_void) {
+    fn set_getfn(&mut self, value: *const c_void) {
         self.get_fn_ = value;
     }
 
-    fn set_setfn(&self, value: *const c_void) {
+    fn set_setfn(&mut self, value: *const c_void) {
         self.set_fn_ = value;
     }
 }
@@ -86,7 +86,7 @@ impl IFuncInfo {
             return_table_: return_table,
         }
     }
-    fn get_name(&self) -> String {
+    fn get_name(self) -> String {
         self.name_
     }
     // 获取修改方法
@@ -102,19 +102,19 @@ impl IFuncInfo {
         self.hash_
     }
 
-    fn set_name(&self, value: String) {
+    fn set_name(&mut self, value: String) {
         self.name_ = value;
     }
 
-    fn set_hash(&self, value: u32) {
+    fn set_hash(&mut self, value: u32) {
         self.hash_ = value;
     }
 
-    fn set_midfn(&self, value: *const c_void) {
+    fn set_mid_fn(&mut self, value: *const c_void) {
         self.mid_fn_ = value;
     }
 
-    fn set_return_table(&self, value: bool) {
+    fn set_return_table(&mut self, value: bool) {
         self.return_table_ = value;
     }
 }
@@ -139,22 +139,22 @@ impl IEntityInfo {
     }
 
     // 获取父类名称
-    fn get_parent_name(&self) -> String {
+    fn get_parent_name(self) -> String {
         self.parent_name_
     }
 
     // 返回名字空间
-    fn get_space_name(&self) -> String {
+    fn get_space_name(self) -> String {
         self.space_name_
     }
 
     // 返回类名
-    fn get_entity_name(&self) -> String {
+    fn get_entity_name(self) -> String {
         self.entity_name_
     }
 
     // 获取父类信息
-    fn get_parent(&self) -> Option<Box<IEntityInfo>> {
+    fn get_parent(self) -> Option<Box<IEntityInfo>> {
         self.parent_
     }
 
@@ -201,7 +201,7 @@ impl IEntityInfo {
 
     // 在本类中获得属性信息
     pub fn get_property_info(&self, name: &str) -> Option<Box<IPropInfo>> {
-        let index: u32 = 0;
+        let index: usize = 0;
         if !self.find_property_index(name, index) {
             return None;
         }

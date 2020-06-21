@@ -22,12 +22,12 @@ pub(crate) struct IBaseInterfaceCreator {
 
 impl IBaseInterfaceCreator {
     // 返回名字空间
-    fn get_space(&self) -> String {
+    fn get_space(self) -> String {
         self.space_name_
     }
 
     // 返回名称
-    fn get_name(&self) -> String {
+    fn get_name(self) -> String {
         self.name_
     }
 
@@ -37,7 +37,7 @@ impl IBaseInterfaceCreator {
     }
 
     // 获得下一个
-    fn get_next(&self) -> Option<Box<Self>> {
+    fn get_next(self) -> Option<Box<Self>> {
         self.next_
     }
 }

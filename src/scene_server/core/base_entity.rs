@@ -44,7 +44,7 @@ impl IBaseEntity {
         0
     }
 
-    pub fn get_core(&self) -> Box<ICore> {
+    pub fn get_core(self) -> Box<ICore> {
         self.core_
     }
 

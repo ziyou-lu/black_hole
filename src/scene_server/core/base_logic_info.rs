@@ -24,7 +24,7 @@ pub struct ICallBackInfo {
 }
 
 impl ICallBackInfo {
-    fn get_name(&self) -> String {
+    fn get_name(self) -> String {
         self.name_
     }
 
