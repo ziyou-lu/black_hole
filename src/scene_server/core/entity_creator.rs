@@ -37,7 +37,7 @@ pub(crate) struct IEntityCreator {
 impl IEntityCreator {
     // 是否为纯虚类（只能用来继承）
     fn is_abstract(&self) -> bool {
-        true
+        false
     }
 
     fn get_parent(&self) -> String {
@@ -60,7 +60,7 @@ impl IEntityCreator {
         unimplemented!()
     }
 
-    fn get_next(&self) -> Box<IEntityCreator> {
+    fn get_next(self) -> Box<IEntityCreator> {
         self.next_
     }
 
@@ -72,7 +72,7 @@ impl IEntityCreator {
         self.property_ = value;
     }
 
-    fn get_method_link(&self) -> Option<Box<EntityFunc>> {
+    fn get_method_link(self) -> Option<Box<EntityFunc>> {
         self.method_
     }
 

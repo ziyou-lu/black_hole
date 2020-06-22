@@ -80,7 +80,7 @@ impl<> IArrayList {
                 VarType::VarTypeF64 => mem += 32,
                 VarType::VarTypeStr => mem += self.get_str(i).len() * 2,
                 VarType::VarTypeObj => mem += 32,
-                _ => println!("type not invalied"),
+                _ => println!("type not invalid"),
              }
         }
         mem

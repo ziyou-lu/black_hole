@@ -10,8 +10,8 @@
 *************************************************/
 use super::base_entity::IBaseEntity;
 use super::entity_creator::IEntityCreator;
-use crate::share::any_list::*;
 use crate::runtime::inlines;
+use crate::share::any_list::*;
 use std::os::raw::c_void;
 
 // 实体属性信息
@@ -168,10 +168,10 @@ impl IEntityInfo {
             return true;
         }
 
-        match self.parent_ {
-            None => return false,
-            IEntityInfo => return self.parent_.unwrap().is_kind_of(name),
-        }
+        return match &self.parent_ {
+            None => false,
+            IEntityInfo => self.parent_.unwrap().is_kind_of(name),
+        };
     }
 
     // 是否属于统一名字空间的某类或者是其子类
@@ -206,10 +206,10 @@ impl IEntityInfo {
             return None;
         }
 
-        Some(self.prop_infos_[index as usize])
+        Some(Box::new(*self.prop_infos_[index]))
     }
 
-    fn find_property_index(&self, name: &str, mut index: u32) -> bool {
+    fn find_property_index(&self, name: &str, mut index: usize) -> bool {
         if name.is_empty() {
             assert!(false, "property name is empty!");
         }
@@ -217,9 +217,9 @@ impl IEntityInfo {
         let hash = inlines::get_hash_value_case(name);
 
         let size = self.prop_infos_.len();
-        for i in 0 .. size {
+        for i in 0..size {
             if self.prop_infos_[i].get_hash() == hash {
-                index = 1;
+                index = i;
                 return true;
             }
         }
@@ -237,15 +237,14 @@ impl IEntityInfo {
                 prop_info = temp_entity.get_property_info(name);
 
                 match prop_info {
-                    None => {entity_info = temp_entity.get_parent()},
+                    None => entity_info = temp_entity.get_parent(),
                     IPropInfo => {
                         break;
-                    },
+                    }
                 }
             }
         }
-
-        prop_info
+        Some(prop_info.unwrap())
     }
 
     // 获得本类和父类的属性名字列表
@@ -265,7 +264,7 @@ impl IEntityInfo {
 
     fn inner_get_property_list(&self, result: &mut IArrayList) {
         let size = self.prop_infos_.len();
-        for i in 0 .. size {
+        for i in 0..size {
             result.add_str(self.prop_infos_[i].get_name().as_str());
         }
     }

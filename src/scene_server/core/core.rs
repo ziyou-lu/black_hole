@@ -79,15 +79,15 @@ impl ICore {
         unimplemented!()
     }
 
-    fn get_interface(&self, name: &str) -> Box<IBaseInterface> {
+    fn get_interface(&self, name: &str) -> Box<impl IBaseInterface> {
         unimplemented!()
     }
 
-    fn get_interface_same_space(&self, p_bi: Box<IBaseInterface>, name: &str) {
+    fn get_interface_same_space(&self, p_bi: Box<impl IBaseInterface>, name: &str) {
         unimplemented!()
     }
 
-    fn release_interface(&self, p_bi: Box<IBaseInterface>) {
+    fn release_interface(&self, p_bi: Box<impl IBaseInterface>) {
         unimplemented!()
     }
 

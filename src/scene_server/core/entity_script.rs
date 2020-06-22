@@ -9,7 +9,6 @@
 //  History:
 *************************************************/
 use super::base_logic::IBaseLogic;
-
 #[derive(Debug)]
 pub(crate) struct IEntityScript {}
 
